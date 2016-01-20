@@ -82,9 +82,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void operatorControl() throws NIVisionException {
-        System.out.println("Entering operator control");
     	while (isOperatorControl() && isEnabled()) {
-        	vision.ImageProcessing();
         	//distanceFromTarget = vision.calculateDistance();
             Timer.delay(0.005);		// wait for a motor update time
         }
