@@ -12,7 +12,10 @@
 package org.usfirst.frc2231.OnyxTronix2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc2231.OnyxTronix2016.OI;
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
+import org.usfirst.frc2231.OnyxTronix2016.RobotMap;
 
 /**
  *
@@ -38,10 +41,12 @@ public class DriveWithJoystick extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    }
+   }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.tankDrive(Robot.oi.driveStick.getRawAxis(1), Robot.oi.driveStick.getRawAxis(4));
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
