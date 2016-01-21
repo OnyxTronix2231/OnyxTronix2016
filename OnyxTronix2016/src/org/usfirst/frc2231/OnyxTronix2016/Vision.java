@@ -1,6 +1,9 @@
 package org.usfirst.frc2231.OnyxTronix2016;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.ni.vision.NIVision;
@@ -34,6 +37,10 @@ public class Vision {
 		this.robotsHeight = robotsHeight;
 		this.targetsHeight = targetsHeight;
 	}
+	
+	File file;
+	FileWriter fileWriter;
+	BufferedWriter bufferedWriter;
 	
 	double distanceFromTarget = 0; // The distance between the robot and the target
 	double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera 
@@ -96,14 +103,26 @@ public class Vision {
 		return distance;
 	}
 	
-	public void writeImage()
-	{
-		File file = new File("/home/lvuser/test.txt");
-		try {
-			file.createNewFile();
+	public void writeImage(BinaryImage binaryImage)
+	{	
+		writeImage(binaryImage);
+		try{
+			file = new File("/home/lvuser/test.jpeg");
+			if(!file.exists())
+				file.createNewFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		try{
+//			file = new File("/home/lvuser/test.text");
+//			if(!file.exists())
+//				file.createNewFile();
+//			fileWriter = new FileWriter(file);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		bufferedWriter = new BufferedWriter(fileWriter);
 	}
 }
