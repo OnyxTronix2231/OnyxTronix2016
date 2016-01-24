@@ -95,8 +95,8 @@ public class DriveTrain extends PIDSubsystem {
     
     public void tankDrive(double speedX, double speedY)
     {    	
-    	double currentSpeed = speedX > 0.15 || speedX < -0.15 ? speedX : 0; 
-    	double currentTurn =  speedY > 0.15 || speedY < -0.15 ? speedY : 0; 
+    	double currentSpeed = speedY > 0.15 || speedY < -0.15 ? speedY : 0; 
+    	double currentTurn =  speedX > 0.15 || speedX < -0.15 ? speedX : 0; 
     	
     	
     	left.set(currentSpeed+currentTurn);
