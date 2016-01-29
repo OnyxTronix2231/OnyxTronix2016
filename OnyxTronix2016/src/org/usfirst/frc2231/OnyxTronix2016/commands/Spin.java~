@@ -11,8 +11,11 @@
 
 package org.usfirst.frc2231.OnyxTronix2016.commands;
 
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
+import org.usfirst.frc2231.OnyxTronix2016.subsystems.Shooter;
 
 /**
  *
@@ -42,6 +45,7 @@ public class Spin extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.shooter.spinWheels();
     }
 
     // Make this return true when this Command no longer needs to run execute()
