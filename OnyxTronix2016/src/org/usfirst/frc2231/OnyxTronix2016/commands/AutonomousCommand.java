@@ -11,8 +11,11 @@
 
 package org.usfirst.frc2231.OnyxTronix2016.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
+import org.usfirst.frc2231.OnyxTronix2016.Vision;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.image.NIVisionException;
 
 /**
  *
@@ -41,6 +44,18 @@ public class AutonomousCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	try {
+			Robot.vision.calculateDistance();
+		} catch (NIVisionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//    	try {
+//			this.vision.centerCalculate();
+//		} catch (NIVisionException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
 
     // Make this return true when this Command no longer needs to run execute()

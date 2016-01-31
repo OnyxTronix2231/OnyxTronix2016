@@ -1,128 +1,130 @@
 package org.usfirst.frc2231.OnyxTronix2016;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import org.omg.CORBA.VersionSpecHelper;
+import org.usfirst.frc2231.OnyxTronix2016.commands.PrintToDebug;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ImageType;
 import com.ni.vision.NIVision.MeasurementType;
+import com.ni.vision.NIVision.ParticleFilterCriteria;
+import com.ni.vision.NIVision.ParticleFilterCriteria2;
+import com.ni.vision.NIVision.ParticleFilterOptions;
+import com.ni.vision.NIVision.ParticleReport;
 import com.ni.vision.NIVision.RGBValue;
-import com.ni.vision.NIVision.RawData;
+import com.ni.vision.NIVision.ROI;
+import com.ni.vision.NIVision.ThresholdData;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.NamedSendable;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.image.BinaryImage;
+import edu.wpi.first.wpilibj.image.ColorImage;
+import edu.wpi.first.wpilibj.image.HSLImage;
+import edu.wpi.first.wpilibj.image.ImageBase;
+import edu.wpi.first.wpilibj.image.MonoImage;
 import edu.wpi.first.wpilibj.image.NIVisionException;
+import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
+import edu.wpi.first.wpilibj.image.RGBImage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 
-public class Vision {
-	
-	private double angleAperture;  // The the aperture angle of the robot
+public class Vision extends Thread{
+
+	private double angleAperture; // The the aperture angle of the robot
 	private double angleAboveRobot; // The angle between the y axis of the robot and the camera
-	private double robotsHeight; // The height of the robot
-	private double targetsHeight; // The height of the target 
-	private double distance; // 	The distance between the y axis of the target and the robot
+	private int robotHeight; // The height of the robot
+	private double targetsHeight; // The height of the target
 	
-	public Vision(){
-		this.angleAperture = 0;
-		this.angleAboveRobot = 0;
-		this.robotsHeight = 0;
-		this.targetsHeight = 0;
-		this.distance = 0;
-	}
-	
-	public Vision(double angleAperture, double angleAboveRobot, double robotsHeight, double targetsHeight){
-		this.angleAperture = angleAperture;
-		this.angleAboveRobot = angleAboveRobot;
-		this.robotsHeight = robotsHeight;
-		this.targetsHeight = targetsHeight;
-		this.distance = 0;
-		System.out.println(this.distance);
-	}
+	AxisCamera camera;
+	// Images
+	HSLImage inputImage;
+	Image processImage;
+	int counter = 0;
+	// The analays report of the binary image
+	ParticleAnalysisReport par;
 	
 	File file;
-	FileWriter fileWriter;
-	BufferedWriter bufferedWriter;
-	
-	double distanceFromTarget = 0; // The distance between the robot and the target
-	double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera 
-	double newCamerasHeight = 0; // The new height of the image after cutting the height of the robot from the image
+	double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
+	int newCamerasHeight = 0; // The new height of the image after cutting the height of the robot from the image
 	double hypotenuse = 0; // "Yeter"
-
-	NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(100, 150);	//Default hue range for yellow tote
-	NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(0, 255);	//Default saturation range for yellow tote
-	NIVision.Range TOTE_VAL_RANGE = new NIVision.Range(120, 255);	//Default value range for yellow tote
-
-	AxisCamera camera;
-	//Images
-	BinaryImage binaryImage;
-	Image processImage;
-
+	double distance = 0;// The distance between the y axis of the target and the robot
+	
+	public final int HUE_LOW = 0; // Low value of the "Hue" field in HSV
+	public final int HUE_HIGH = 255; // High value of the "Hue" field in HSV
+	public final int SATURATION_LOW = 105; // Low value of the "Saturation" field in HSV
+	public final int SATURATION_HIGH = 255; // High value of the "Saturation" field in HSV
+	public final int VALUE_LOW = 235; // Low value of the "Value" field in HSV
+	public final int VALUE_HIGH = 255; // High value of the "Value" field in HSV
+	public final double MIN_CONVEX_HULL_AREA = 2500; // The area(in pixels) of an object in the processing operation
+	
+	public Vision() {
+		this.angleAperture = 0;
+		this.angleAboveRobot = 0;
+		this.robotHeight = 0;
+		this.targetsHeight = 0;
+		camera = RobotMap.shooterCamera;
+	}
 	
 	public void activateDashboard() {
-				
-//		NIVision.imaqWriteBMPFile(processImage, "/home/lvuser/test.jpg", 50, new RGBValue(160, 160, 160, 0));
-		
-		//Put default values to SmartDashboard so fields will appear
-//		TOTE_HUE_RANGE.minValue = (int)SmartDashboard.getNumber("Tote hue min");
-//		TOTE_HUE_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote hue max");
-//		TOTE_SAT_RANGE.minValue = (int)SmartDashboard.getNumber("Tote sat min");
-//		TOTE_SAT_RANGE.maxValue = (int)SmartDashboard.getNumber("Tote sat max");
-//		TOTE_VAL_RANGE.minValue = (int)SmartDashboard.getNumber("Tote val min");
-//		TOTE_VAL_RANGE.maxValue = (int )SmartDashboard.getNumber("Tote val max");
-//		SmartDashboard.putNumber("Tote hue min", TOTE_HUE_RANGE.minValue);
-//		SmartDashboard.putNumber("Tote hue max", TOTE_HUE_RANGE.maxValue);
-//		SmartDashboard.putNumber("Tote sat min", TOTE_SAT_RANGE.minValue);
-//		SmartDashboard.putNumber("Tote sat max", TOTE_SAT_RANGE.maxValue);
-//		SmartDashboard.putNumber("Tote val min", TOTE_VAL_RANGE.minValue);
-//		SmartDashboard.putNumber("Tote val max", TOTE_VAL_RANGE.maxValue);
 
+	}
+	
+	
+	public void imageProcessing() {
+//		while(true){
+			try {
+				inputImage = camera.getImage();			
+				processImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+//			
+				NIVision.imaqReadFile(inputImage.image, "/home/lvuser/vis.jpg");
+			
+				ParticleFilterCriteria2 [] criteria = new ParticleFilterCriteria2[1];
+				criteria[0] = new ParticleFilterCriteria2(NIVision.MeasurementType.MT_CONVEX_HULL_AREA, 0, MIN_CONVEX_HULL_AREA, 0, 0);
+				ParticleFilterOptions options = new ParticleFilterOptions(1, 0, 0);
+				ROI roi = NIVision.imaqCreateROI();
+			
+				NIVision.Range hueRange = new NIVision.Range(HUE_LOW, HUE_HIGH);
+				NIVision.Range saturationRange = new NIVision.Range(SATURATION_LOW, SATURATION_HIGH);
+				NIVision.Range valueRange = new NIVision.Range(VALUE_LOW, VALUE_HIGH);
+	        
+				NIVision.imaqColorThreshold(processImage, inputImage.image, 255, NIVision.ColorMode.HSV, hueRange, saturationRange, valueRange);
+//				NIVision.imaqParticleFilter3(processImage, processImage, criteria[0], 1, options, roi);
+			
+//	        	NIVision.imaqWriteFile(processImage, "/home/lvuser/processedImage.jpg", new RGBValue(255, 255, 255, 255));
+//	       
+//				Thread.sleep(500);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+//		}	
+	}	
 
-		SmartDashboard.putNumber("Distance", distance);
-		System.out.println(distance);
+	public double calculateDistance() throws NIVisionException {
 		
-		//TOTE_HUE_RANGE.maxValue -= 10;
+		newCamerasHeight = (int) (par.imageHeight*(angleAperture/2+angleAboveRobot)/angleAperture); // Cutting what's below the plumb to the y axis of the target
+		robotHeight = par.imageHeight-newCamerasHeight;
+		targetsHeight = 2*par.boundingRectTop-par.boundingRectHeight-par.center_mass_y-robotHeight;
+		targetAngle = targetsHeight*(angleAperture/2+angleAboveRobot)/newCamerasHeight; // targetHeight isn't final
+		hypotenuse = (targetsHeight-robotHeight)/Math.sin(targetAngle);
+		distance = Math.sqrt(Math.pow(hypotenuse, 2)-Math.pow(targetsHeight-robotHeight, 2));
+
+		return this.distance;
 	}
-	
-	public void ImageProcessing() throws NIVisionException{
-		System.out.println(this.distance);
-		camera = RobotMap.shooterCamera;
-		processImage = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
-		//Threshold the image looking for yellow (tote color)
-		processImage = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
-		NIVision.imaqThreshold(binaryImage.image, processImage, (float)TOTE_SAT_RANGE.minValue, (float)TOTE_SAT_RANGE.maxValue, 160, (float)160);
-		NIVision.ParticleFilterCriteria2 ParticleFilterCriteria = new NIVision.ParticleFilterCriteria2(MeasurementType.MT_AREA,0, 500,0,0);
-		NIVision.ParticleFilterCriteria2[] PFCArray = new NIVision.ParticleFilterCriteria2[1];
-		PFCArray[0] = ParticleFilterCriteria;
-		binaryImage.particleFilter(PFCArray);
-		binaryImage.removeSmallObjects(false, 5);
-		binaryImage.getOrderedParticleAnalysisReports(1);
-//		CameraServer.getInstance().setImage(binaryImage.image);
-	}
-	
-	public void calculateDistance() throws NIVisionException{
-//		newCamerasHeight = binaryImage.getHeight()*(angleAperture/2+angleAboveRobot)/angleAperture;	// Cutting what's below the plumb to the y axis of the target
-//		targetAngle = targetsHeight*(angleAperture/2+angleAboveRobot)/newCamerasHeight;
-//		hypotenuse = (targetsHeight-robotsHeight)/Math.sin(targetAngle);
-//		this.distance = Math.sqrt(Math.pow(hypotenuse, 2) - Math.pow(targetsHeight-robotsHeight, 2));
-		this.distance = 400;
-//		CameraServer.getInstance().setImage(binaryImage.image);
-	}
+
+	public void appendText(String textToAppend) {
 		
-	public double getDistance() {
-		return distance;
-	}
-	
-	public void appendText(String textToAppend)
-	{	
 		byte[] content;
-		try{
+		try {
 			file = new File("/home/lvuser/test.txt");
-			if(!file.exists())
+			if (!file.exists())
 				file.createNewFile();
 			FileOutputStream fos = new FileOutputStream(file);
 			content = textToAppend.getBytes();
