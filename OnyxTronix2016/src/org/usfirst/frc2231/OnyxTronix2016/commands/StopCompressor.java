@@ -43,7 +43,7 @@ public class StopCompressor extends Command {
 	protected void execute() {
 		if (Robot.oi.buttonStick.getRawButton(7)) 
 		{
-			Robot.reloader.stopCompressor();
+			Robot.collector.stopCompressor();
 		}
 	}
 

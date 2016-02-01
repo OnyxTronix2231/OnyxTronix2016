@@ -125,7 +125,7 @@ public class DriveTrain extends PIDSubsystem {
     	
     }
     
-    public static double getRotate(double degrees){
+    public double getRotate(double degrees){
 		int shift;
 		double shiftedDegree;
 		
@@ -139,8 +139,14 @@ public class DriveTrain extends PIDSubsystem {
 		}
 	}
 	
-	public static double getMove(double degrees){
-		return getRotate(degrees - 90.0);
+	public double getMove(double degrees){
+		return getRotate(degrees + 270.0);
 	}
-    
+	
+    public boolean isClockwiseRotationEfficient(double setpoint) {
+    	if(setpoint - RobotMap.driveTrainLeftIndexedEncoder.getDistance() > PERIMETER / 2){
+			return true;
+		} 
+    	return false;
+    }
 }
