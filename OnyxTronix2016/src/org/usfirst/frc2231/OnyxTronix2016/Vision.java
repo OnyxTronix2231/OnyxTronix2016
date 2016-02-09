@@ -4,72 +4,62 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-
-import org.omg.CORBA.VersionSpecHelper;
-import org.usfirst.frc2231.OnyxTronix2016.commands.PrintToDebug;
+import FRC_Vision2016_newMethods_ft_team2231.newBinaryImage;
+import FRC_Vision2016_newMethods_ft_team2231.newParticleAnalysisReport;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ImageType;
-import com.ni.vision.NIVision.MeasurementType;
-import com.ni.vision.NIVision.ParticleFilterCriteria;
+import com.ni.vision.NIVision.MeasureParticlesReport;
 import com.ni.vision.NIVision.ParticleFilterCriteria2;
 import com.ni.vision.NIVision.ParticleFilterOptions;
-import com.ni.vision.NIVision.ParticleReport;
 import com.ni.vision.NIVision.RGBValue;
-import com.ni.vision.NIVision.ROI;
-import com.ni.vision.NIVision.ThresholdData;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.NamedSendable;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Sendable;
+
+
+
+import com.ni.vision.NIVision.ROI;
+
 import edu.wpi.first.wpilibj.image.BinaryImage;
-import edu.wpi.first.wpilibj.image.ColorImage;
 import edu.wpi.first.wpilibj.image.HSLImage;
-import edu.wpi.first.wpilibj.image.ImageBase;
-import edu.wpi.first.wpilibj.image.MonoImage;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
-import edu.wpi.first.wpilibj.image.RGBImage;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Vision extends Thread{
 
-	private double angleAperture; // The the aperture angle of the robot
-	private double angleAboveRobot; // The angle between the y axis of the robot and the camera
-	private int robotHeight; // The height of the robot
-	private double targetsHeight; // The height of the target
+	private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot
+	private final double HORIZONTAL_APERTURE_ANGLE = 71.63;
+	private final double ANGLE_TO_FLOOR = 18; // The angle between the y axis of the robot and the camera
+	private final double ROBOT_HEIGHT =  0.77; // The height of the robot(m)
+	private final double TARGET_HEIGHT = 2.32; // The height of the target(m)
 	
 	AxisCamera camera;
 	// Images
 	HSLImage inputImage;
 	Image processImage;
-	int counter = 0;
+
 	// The analays report of the binary image
-	ParticleAnalysisReport par;
+	//newParticleAnalysisReport par;
 	
 	File file;
+	double buttomAngle = 0;//The angle between the target to the end of the picture
 	double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
-	int newCamerasHeight = 0; // The new height of the image after cutting the height of the robot from the image
-	double hypotenuse = 0; // "Yeter"
+	double hypotenuse = 0; // "YETER"
 	double distance = 0;// The distance between the y axis of the target and the robot
+	/*Ranges */
+	public final int HUE_LOW = 80;
+	public final int HUE_HIGH = 125;
+	public final int SATURATION_LOW = 30;
+	public final int SATURATION_HIGH = 255;
+	public final int VALUE_LOW = 0;
+	public final int VALUE_HIGH = 255;
 	
-	public final int HUE_LOW = 0; // Low value of the "Hue" field in HSV
-	public final int HUE_HIGH = 255; // High value of the "Hue" field in HSV
-	public final int SATURATION_LOW = 105; // Low value of the "Saturation" field in HSV
-	public final int SATURATION_HIGH = 255; // High value of the "Saturation" field in HSV
-	public final int VALUE_LOW = 235; // Low value of the "Value" field in HSV
-	public final int VALUE_HIGH = 255; // High value of the "Value" field in HSV
-	public final double MIN_CONVEX_HULL_AREA = 2500; // The area(in pixels) of an object in the processing operation
+	public final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
+	public final double MAX_AREA = 6000; // The max area(in pixels) of an object in the processing operation
+	
+	public double particleArea;
 	
 	public Vision() {
-		this.angleAperture = 0;
-		this.angleAboveRobot = 0;
-		this.robotHeight = 0;
-		this.targetsHeight = 0;
 		camera = RobotMap.shooterCamera;
 	}
 	
@@ -77,46 +67,59 @@ public class Vision extends Thread{
 
 	}
 	
-	
 	public void imageProcessing() {
-//		while(true){
-			try {
-				inputImage = camera.getImage();			
-				processImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-//			
-				NIVision.imaqReadFile(inputImage.image, "/home/lvuser/vis.jpg");
 			
-				ParticleFilterCriteria2 [] criteria = new ParticleFilterCriteria2[1];
-				criteria[0] = new ParticleFilterCriteria2(NIVision.MeasurementType.MT_CONVEX_HULL_AREA, 0, MIN_CONVEX_HULL_AREA, 0, 0);
-				ParticleFilterOptions options = new ParticleFilterOptions(1, 0, 0);
-				ROI roi = NIVision.imaqCreateROI();
+		try {
+			inputImage = camera.getImage();
+			processImage = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_U8, 0);
+			NIVision.Range hueRange = new NIVision.Range(HUE_LOW, HUE_HIGH);
+			NIVision.Range saturationRange = new NIVision.Range(SATURATION_LOW, SATURATION_HIGH);
+			NIVision.Range valueRange = new NIVision.Range(VALUE_LOW, VALUE_HIGH);	
 			
-				NIVision.Range hueRange = new NIVision.Range(HUE_LOW, HUE_HIGH);
-				NIVision.Range saturationRange = new NIVision.Range(SATURATION_LOW, SATURATION_HIGH);
-				NIVision.Range valueRange = new NIVision.Range(VALUE_LOW, VALUE_HIGH);
-	        
-				NIVision.imaqColorThreshold(processImage, inputImage.image, 255, NIVision.ColorMode.HSV, hueRange, saturationRange, valueRange);
-//				NIVision.imaqParticleFilter3(processImage, processImage, criteria[0], 1, options, roi);
+			NIVision.imaqColorThreshold(processImage, inputImage.image, 255, NIVision.ColorMode.HSV, hueRange, saturationRange, valueRange);
+			NIVision.imaqWriteFile(processImage, "/home/lvuser/thresholdImage.jpg", new RGBValue(255, 255, 255, 255));
+	
+			NIVision.ParticleFilterCriteria2[] criteria = new ParticleFilterCriteria2[1];
+			criteria[0] = new ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA, MIN_AREA, MAX_AREA, 0, 0);
+			ParticleFilterOptions options = new ParticleFilterOptions(0, 0, 1);
+			ROI roi = NIVision.imaqCreateROI();
+			NIVision.imaqParticleFilter3(processImage, processImage, criteria[0], 1, options, roi);
 			
-//	        	NIVision.imaqWriteFile(processImage, "/home/lvuser/processedImage.jpg", new RGBValue(255, 255, 255, 255));
-//	       
-//				Thread.sleep(500);
-			} catch(Exception e) {
-				e.printStackTrace();
+			NIVision.imaqWriteFile(inputImage.image, "/home/lvuser/inputImage.jpg", new RGBValue(255, 255, 255, 255));
+			NIVision.imaqWriteFile(processImage, "/home/lvuser/filterImage.jpg", new RGBValue(255, 255, 255, 255));
+			
+			newBinaryImage binaryImage = new newBinaryImage();
+			binaryImage.image = processImage;
+			System.out.println(binaryImage.getNumberParticles());
+			if(binaryImage.getNumberParticles() != 0){
+				newParticleAnalysisReport par = binaryImage.getOrderedParticleAnalysisReports(1)[0];
+				System.out.println(calculateDistance(par));
 			}
-//		}	
+
+			
+//			try{
+//				System.out.println(NIVision.imaqMeasureParticle(processImage, binaryImage.getNumberParticles(), 0, NIVision.MeasurementType.MT_AREA));
+//			} catch(Exception e){
+//				e.printStackTrace();
+//			}
+			
+			Thread.sleep(1000);
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}	
 	}	
 
-	public double calculateDistance() throws NIVisionException {
+	public double calculateDistance(newParticleAnalysisReport par) throws NIVisionException {
 		
-		newCamerasHeight = (int) (par.imageHeight*(angleAperture/2+angleAboveRobot)/angleAperture); // Cutting what's below the plumb to the y axis of the target
-		robotHeight = par.imageHeight-newCamerasHeight;
-		targetsHeight = 2*par.boundingRectTop-par.boundingRectHeight-par.center_mass_y-robotHeight;
-		targetAngle = targetsHeight*(angleAperture/2+angleAboveRobot)/newCamerasHeight; // targetHeight isn't final
-		hypotenuse = (targetsHeight-robotHeight)/Math.sin(targetAngle);
-		distance = Math.sqrt(Math.pow(hypotenuse, 2)-Math.pow(targetsHeight-robotHeight, 2));
-
-		return this.distance;
+		buttomAngle = VERTICLE_APERTURE_ANGLE*(par.imageHeight-par.center_mass_y)/par.imageHeight;
+		System.out.println(par.imageHeight);
+		System.out.println(par.center_mass_y);
+		targetAngle = buttomAngle - VERTICLE_APERTURE_ANGLE/2 + ANGLE_TO_FLOOR;
+		targetAngle *= Math.PI/180;//changing of the angle to radians
+		distance = (TARGET_HEIGHT-ROBOT_HEIGHT)/Math.tan(targetAngle);
+		
+		return distance;
 	}
 
 	public void appendText(String textToAppend) {
@@ -136,4 +139,4 @@ public class Vision extends Thread{
 			e.printStackTrace();
 		}
 	}
-}
+}	

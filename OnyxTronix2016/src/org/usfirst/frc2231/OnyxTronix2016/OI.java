@@ -12,8 +12,6 @@
 package org.usfirst.frc2231.OnyxTronix2016;
 
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutonomousCommand;
-import org.usfirst.frc2231.OnyxTronix2016.commands.PrintToDebug;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
