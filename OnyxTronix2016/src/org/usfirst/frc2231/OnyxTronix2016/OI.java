@@ -14,7 +14,6 @@ package org.usfirst.frc2231.OnyxTronix2016;
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoCollect;
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoCycle;
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoShoot;
-import org.usfirst.frc2231.OnyxTronix2016.commands.AutonomousCommand;
 import org.usfirst.frc2231.OnyxTronix2016.commands.CloseCollector;
 import org.usfirst.frc2231.OnyxTronix2016.commands.CloseShifters;
 import org.usfirst.frc2231.OnyxTronix2016.commands.DriveWithJoystick;
@@ -112,7 +111,6 @@ public class OI {
 
 
         // SmartDashboard Buttons
-        SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("OpenShifters", new OpenShifters());
         SmartDashboard.putData("CloseShifters", new CloseShifters());
         SmartDashboard.putData("StopRoll", new StopRoll());
