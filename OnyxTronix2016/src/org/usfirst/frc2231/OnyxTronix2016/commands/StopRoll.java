@@ -41,7 +41,7 @@ public class StopRoll extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.collector.roll(false);
+    	Robot.collector.roll(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

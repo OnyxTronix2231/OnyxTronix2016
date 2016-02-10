@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Wiring</title>
+    <style type="text/css" media="screen">
+      table {
+          text-align: left;
+          width: 400px;
+
+          border-top: 2px solid black;
+          border-bottom: 2px solid black;
+          border-collapse:collapse;
+          border-spacing:0px;
+      }
+      th {
+          border-top: 2px solid black;
+          border-bottom: 2px solid black;
+      }
+      .pound {
+          width: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wiring</h1>
+                    <h2>DIO</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Sensor</th></tr>
+	                                               <tr><td>0</td><td>DriveTrain LeftEncoder</td><td></td></tr>
+            	                                         <tr><td>1</td><td>DriveTrain LeftEncoder</td><td></td></tr>
+            	                                         <tr><td>2</td><td>DriveTrain RightEncoder</td><td></td></tr>
+            	                                         <tr><td>3</td><td>DriveTrain RightEncoder</td><td></td></tr>
+            	                                         <tr><td>4</td><td>DriveTrain Ultrasonic 1</td><td></td></tr>
+            	                                         <tr><td>5</td><td>DriveTrain Ultrasonic 1</td><td></td></tr>
+            	                                         <tr><td>6</td><td>DriveTrain Ultrasonic 2</td><td></td></tr>
+            	                                         <tr><td>7</td><td>DriveTrain Ultrasonic 2</td><td></td></tr>
+            	                                         <tr><td>8</td><td>Reloader isCollected</td><td></td></tr>
+            	                                         <tr><td>9</td><td>Shooter ShooterLeftEncoder</td><td></td></tr>
+            	                                         <tr><td>10</td><td>Shooter ShooterLeftEncoder</td><td></td></tr>
+            	                                         <tr><td>11</td><td>Shooter ShooterRightEncoder</td><td></td></tr>
+            	                                         <tr><td>12</td><td>Shooter ShooterRightEncoder</td><td></td></tr>
+            	                                                                                                                                                                 	    </table>
+                    <h2>PWMs</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Motor</th>
+                <th>Type</th></tr>
+	                                               <tr><td>0</td><td>DriveTrain Left</td><td>TalonSRX</td></tr>
+            	                                         <tr><td>1</td><td>DriveTrain Right</td><td>TalonSRX</td></tr>
+            	                                         <tr><td>2</td><td>Collector CollectorSpinner</td><td>Talon</td></tr>
+            	                                         <tr><td>3</td><td>Shooter ShooterLeftMotor</td><td>Spark</td></tr>
+            	                                         <tr><td>4</td><td>Shooter ShooterRightMotor</td><td>Talon</td></tr>
+            	                                         <tr><td>5</td><td>Reloader ReloaderWheel</td><td>Talon</td></tr>
+            	                                         <tr><td>6</td><td>Climber Speed Controller 2</td><td>Talon</td></tr>
+            	                                         <tr><td>7</td><td>Climber Speed Controller 1</td><td>Talon</td></tr>
+            	                                                                                                                                                                                                                             	    </table>
+     
+        
+            
+            
+                    <h2>PCM 0</h2>
+	    <table><tr>
+	        <th class="pound">#</th>
+	        <th>Solenoid</th></tr>
+	                                               <tr><td>0</td><td>Collector leftOpenSolenoid Output </td><td></td></tr>
+            	                                         <tr><td>1</td><td>Collector leftCloseSolenoid Output </td><td></td></tr>
+            	                                         <tr><td>2</td><td>DriveTrain CloseShifter Output </td><td></td></tr>
+            	                                         <tr><td>3</td><td>DriveTrain OpenShifter Output </td><td></td></tr>
+            	                                                     <tr><td>5</td><td>Collector rightCloseSolenoid Output </td><td></td></tr>
+            	                                         <tr><td>6</td><td>Collector rightOpenSolenoid Output </td><td></td></tr>
+            	                                                                                                                                                                                                                                         	    </table>
+                                                                                                                                                                                                                                                    
+                <h2>Compressor</h2>
+	<table><tr>
+	<th class="pound">PCM</th>
+	<th>Device</th></tr>
+	                                         <tr><td>0</td><td>Collector Compressor</td><td></td></tr>
+            	                                                                                                                                                                                                                                                                                                                 	</table>
+      </body>
+</html>

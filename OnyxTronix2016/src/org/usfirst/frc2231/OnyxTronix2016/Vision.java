@@ -9,12 +9,16 @@ import java.io.IOException;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.MeasurementType;
+import com.ni.vision.NIVision.ParticleReport;
 import com.ni.vision.NIVision.RGBValue;
 import com.ni.vision.NIVision.RawData;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.image.BinaryImage;
+import edu.wpi.first.wpilibj.image.ColorImage;
+import edu.wpi.first.wpilibj.image.MonoImage;
 import edu.wpi.first.wpilibj.image.NIVisionException;
+import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Vision {
@@ -62,6 +66,7 @@ public class Vision {
 		AxisCamera camera = RobotMap.shooterCamera;
 		processImage = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_HSL, 0);
 		NIVision.imaqWriteBMPFile(processImage, "/home/lvuser/test.jpg", 50, new RGBValue(160, 160, 160, 0));
+	
 		
 		//Put default values to SmartDashboard so fields will appear
 //		TOTE_HUE_RANGE.minValue = (int)SmartDashboard.getNumber("Tote hue min");

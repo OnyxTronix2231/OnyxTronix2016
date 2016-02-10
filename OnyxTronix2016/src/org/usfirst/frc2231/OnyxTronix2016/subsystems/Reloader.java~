@@ -48,16 +48,12 @@ public class Reloader extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	public void load(boolean isLoading) {
-		if (isLoading) {
-			reloaderWheel.set(-1);
-		} else {
-			reloaderWheel.set(0);
-		}
+	public void load(double speed) {
+			reloaderWheel.set(-speed);
 	}
 	
 	public boolean isCollected() {
-		if(isCollected.get()) {
+		if(!isCollected.get()) {
 			return true;
 		}
 		return false;

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc2231.OnyxTronix2016.commands.*;
 import org.usfirst.frc2231.OnyxTronix2016.subsystems.*;
@@ -79,11 +80,8 @@ public class Robot extends IterativeRobot {
       // vision.writeImage();
     }
     
-    public void operatorControl() throws NIVisionException {
-    	while (isOperatorControl() && isEnabled()) {
-        	distanceFromTarget = vision.calculateDistance();
-            Timer.delay(0.005);		// wait for a motor update time
-        }
+    public void operatorControl() {
+    	
     }
     
     /**
@@ -123,6 +121,14 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        //SmartDashboard.putString("default command", Robot.driveTrain.getCurrentCommand().toString());
+        SmartDashboard.putString("Distance - Left", Math.floor(RobotMap.driveTrainLeftEncoder.getDistance() * 1000) / 1000 + "");
+        SmartDashboard.putString("Rate - Left", Math.floor(RobotMap.driveTrainLeftEncoder.getRate() * 1000) / 1000 + "");
+        SmartDashboard.putString("DistancePerPulse - Left", Math.floor(RobotMap.driveTrainLeftEncoder.getDistance() / RobotMap.driveTrainLeftEncoder.get() * 1000) / 1000 + "");
+        SmartDashboard.putString("Distance - Right", Math.floor(RobotMap.driveTrainRightEncoder.getDistance() * 1000) / 1000 + "");
+        SmartDashboard.putString("Rate - Right", Math.floor(RobotMap.driveTrainRightEncoder.getRate() * 1000) / 1000 + "");
+        SmartDashboard.putString("DistancePerPulse - Right", Math.floor(RobotMap.driveTrainRightEncoder.getDistance() / RobotMap.driveTrainRightEncoder.get() * 1000) / 1000 + "");
+        SmartDashboard.putString("running command: DriveTrain", driveTrain.getCurrentCommand().toString());
     }
 
     /**

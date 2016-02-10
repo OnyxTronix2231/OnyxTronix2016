@@ -9,11 +9,11 @@ public class StickButtons {
 		A(1),
 		B(2),
 		X(3),
-		Y(3),
-		LB(4),
-		RB(5),
-		BACK(6),
-		START(6);
+		Y(4),
+		LB(5),
+		RB(6),
+		BACK(7),
+		START(8);
 	    private final int value;
 	    private Buttons(int value) {
 	        this.value = value;

@@ -42,6 +42,7 @@ public class RollBackward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.collector.roll(-1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,10 +52,12 @@ public class RollBackward extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.collector.roll(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.collector.roll(0);
     }
 }

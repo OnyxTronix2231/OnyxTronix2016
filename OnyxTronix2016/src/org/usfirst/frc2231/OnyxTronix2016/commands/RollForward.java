@@ -42,7 +42,7 @@ public class RollForward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.collector.roll(true);
+    	Robot.collector.roll(1);
     	
     }
 

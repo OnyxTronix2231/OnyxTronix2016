@@ -45,17 +45,18 @@ public class Shoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {  
-    	Robot.reloader.load(true);
-    	Robot.shooter.spinWheelsAtSpeed(1);
+    	Robot.reloader.load(1);
+    	Robot.shooter.spinWheelsAtSpeed(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.reloader.load(1);
     	Robot.shooter.spinWheelsAtSpeed(0);
     }
 
