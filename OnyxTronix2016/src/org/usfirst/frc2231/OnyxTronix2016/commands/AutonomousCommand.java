@@ -12,7 +12,6 @@
 package org.usfirst.frc2231.OnyxTronix2016.commands;
 
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
-import org.usfirst.frc2231.OnyxTronix2016.Vision;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.image.NIVisionException;
