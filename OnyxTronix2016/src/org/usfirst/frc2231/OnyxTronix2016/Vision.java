@@ -1,5 +1,6 @@
 package org.usfirst.frc2231.OnyxTronix2016;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,8 +29,8 @@ import edu.wpi.first.wpilibj.vision.AxisCamera;
 public class Vision extends Thread{
 
 	private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot
-	private final double HORIZONTAL_APERTURE_ANGLE = 71.63;
-	private final double ANGLE_TO_FLOOR = 18; // The angle between the y axis of the robot and the camera
+	private final double HORIZONTAL_APERTURE_ANGLE = 47;
+	private final double ANGLE_TO_FLOOR = 13; // The angle between the y axis of the robot and the camera
 	private final double ROBOT_HEIGHT =  0.77; // The height of the robot(m)
 	private final double TARGET_HEIGHT = 2.32; // The height of the target(m)
 	
@@ -53,6 +54,8 @@ public class Vision extends Thread{
 	public final int SATURATION_HIGH = 255;
 	public final int VALUE_LOW = 0;
 	public final int VALUE_HIGH = 255;
+	
+	double newFrame = 0;
 	
 	public final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
 	public final double MAX_AREA = 6000; // The max area(in pixels) of an object in the processing operation
@@ -95,13 +98,6 @@ public class Vision extends Thread{
 				newParticleAnalysisReport par = binaryImage.getOrderedParticleAnalysisReports(1)[0];
 				System.out.println(calculateDistance(par));
 			}
-
-			
-//			try{
-//				System.out.println(NIVision.imaqMeasureParticle(processImage, binaryImage.getNumberParticles(), 0, NIVision.MeasurementType.MT_AREA));
-//			} catch(Exception e){
-//				e.printStackTrace();
-//			}
 			
 			Thread.sleep(1000);
 		
@@ -111,15 +107,24 @@ public class Vision extends Thread{
 	}	
 
 	public double calculateDistance(newParticleAnalysisReport par) throws NIVisionException {
-		
+		//Rigler's Version
 		buttomAngle = VERTICLE_APERTURE_ANGLE*(par.imageHeight-par.center_mass_y)/par.imageHeight;
-		System.out.println(par.imageHeight);
-		System.out.println(par.center_mass_y);
 		targetAngle = buttomAngle - VERTICLE_APERTURE_ANGLE/2 + ANGLE_TO_FLOOR;
 		targetAngle *= Math.PI/180;//changing of the angle to radians
 		distance = (TARGET_HEIGHT-ROBOT_HEIGHT)/Math.tan(targetAngle);
 		
+		//Ziv's Version
+//		newFrame = (VERTICLE_APERTURE_ANGLE/2+ANGLE_TO_FLOOR)/VERTICLE_APERTURE_ANGLE*par.imageHeight;
+//		targetAngle = (VERTICLE_APERTURE_ANGLE/2+ANGLE_TO_FLOOR)*(newFrame-par.center_mass_y)/newFrame;
+//		targetAngle *= Math.PI/180;
+//		distance = (TARGET_HEIGHT-ROBOT_HEIGHT)/Math.tan(targetAngle);
+		
 		return distance;
+	}
+	
+	public double calculateAreaRatio(newParticleAnalysisReport par) throws NIVisionException{
+		
+		return par.particleArea/(par.boundingRectHeight*par.boundingRectWidth);		
 	}
 
 	public void appendText(String textToAppend) {
