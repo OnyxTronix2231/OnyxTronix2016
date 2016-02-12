@@ -56,38 +56,6 @@ Children:
       Name: leftCloseSolenoid
     - Children: []
       Properties:
-        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id001
-          default: '0'
-          name: Output Channel (Solenoid)
-          validators: *id002
-          value: '5'
-        Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id003
-          default: '0'
-          name: Output PCM (Solenoid)
-          validators: *id004
-          value: '0'
-      Base: Solenoid
-      Name: rightCloseSolenoid
-    - Children: []
-      Properties:
-        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id001
-          default: '0'
-          name: Output Channel (Solenoid)
-          validators: *id002
-          value: '6'
-        Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id003
-          default: '0'
-          name: Output PCM (Solenoid)
-          validators: *id004
-          value: '0'
-      Base: Solenoid
-      Name: rightOpenSolenoid
-    - Children: []
-      Properties:
         PCM ID: !!robotbuilder.data.properties.ChoicesProperty
           choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12', '13', '14', '15', '16', '17', '18', '19', '20']
@@ -539,7 +507,7 @@ Children:
             default: Talon
             name: Type
             validators: null
-            value: Spark
+            value: Talon
           Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
             choices: *id010
             default: '0'
@@ -803,7 +771,7 @@ Children:
           validators: null
           value:
           - !!robotbuilder.data.properties.ValuedParameterDescriptor {name: setpoint,
-            type: double, value: '0'}
+            type: double, value: '90'}
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id021
           default: '1'
@@ -834,7 +802,7 @@ Children:
           validators: null
           value:
           - !!robotbuilder.data.properties.ValuedParameterDescriptor {name: setpoint,
-            type: double, value: '0'}
+            type: double, value: '-90'}
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id021
           default: '1'
@@ -937,7 +905,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '6'
+          value: '5'
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
           default: None
           name: Command
@@ -1023,24 +991,6 @@ Children:
   Base: OI
   Name: Operator Interface
 - Children:
-  - Children: []
-    Properties:
-      Parameters: !!robotbuilder.data.properties.ParametersProperty
-        default: []
-        name: Parameters
-        validators: null
-        value: []
-      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: None}
-      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: []
-        name: Parameter presets
-        validators: null
-        value: []
-      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
-        name: Button on SmartDashboard, validators: null, value: true}
-    Base: Command
-    Name: Autonomous Command
   - Children: []
     Properties:
       Parameters: !!robotbuilder.data.properties.ParametersProperty
@@ -1629,6 +1579,24 @@ Children:
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
     Name: DriveByDirection
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value: []
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: None}
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        default: &id034 []
+        name: Parameter presets
+        validators: null
+        value: *id034
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: false}
+    Base: Command
+    Name: AutonomousCommand
   Properties: {}
   Base: Commands
   Name: Commands
@@ -1655,6 +1623,6 @@ Properties:
   Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Developer\',
     extension: null, folder: true, name: Wiring file location, validators: null, value: .\}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-    name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
+    name: Autonomous Command, type: Command, validators: null, value: None}
 Base: Robot
 Name: OnyxTronix2016
