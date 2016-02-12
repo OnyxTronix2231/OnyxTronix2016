@@ -42,8 +42,11 @@ public class RollForward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+<<<<<<< HEAD
     	Robot.collector.roll(1);
     	
+=======
+>>>>>>> c9d3a9e777542932506328b3a5300a8d51e1d9f4
     }
 
     // Make this return true when this Command no longer needs to run execute()
