@@ -44,12 +44,9 @@ public class StartCompressor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-<<<<<<< HEAD
     	if(Robot.oi.buttonStick.getRawButton(8)){
     		Robot.collector.startCompressor();
     	}
-=======
->>>>>>> c9d3a9e777542932506328b3a5300a8d51e1d9f4
     }
 
     // Make this return true when this Command no longer needs to run execute()

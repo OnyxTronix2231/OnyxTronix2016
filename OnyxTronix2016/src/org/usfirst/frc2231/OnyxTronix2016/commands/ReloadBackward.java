@@ -42,11 +42,7 @@ public class ReloadBackward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-<<<<<<< HEAD:OnyxTronix2016/src/org/usfirst/frc2231/OnyxTronix2016/commands/ReloadBackward.java
     	Robot.reloader.load(-0.4);
-    	
-=======
->>>>>>> c9d3a9e777542932506328b3a5300a8d51e1d9f4:OnyxTronix2016/src/org/usfirst/frc2231/OnyxTronix2016/commands/RollUntilCollected.java
     }
 
     // Make this return true when this Command no longer needs to run execute()

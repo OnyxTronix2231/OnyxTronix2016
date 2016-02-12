@@ -13,11 +13,9 @@ package org.usfirst.frc2231.OnyxTronix2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
-<<<<<<< HEAD
 import org.usfirst.frc2231.OnyxTronix2016.RobotMap;
 import org.usfirst.frc2231.OnyxTronix2016.subsystems.DriveTrain;
-=======
->>>>>>> c9d3a9e777542932506328b3a5300a8d51e1d9f4
+
 
 /**
  *
@@ -40,11 +38,8 @@ public class DriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-<<<<<<< HEAD
     	Robot.driveTrain.arcadeDrive(Robot.oi.getdriveStick());
 //    	Robot.driveTrain.driveByDirection(Robot.oi.getdriveStick().getPOV());
-=======
->>>>>>> c9d3a9e777542932506328b3a5300a8d51e1d9f4
     }
 
     // Make this return true when this Command no longer needs to run execute()
