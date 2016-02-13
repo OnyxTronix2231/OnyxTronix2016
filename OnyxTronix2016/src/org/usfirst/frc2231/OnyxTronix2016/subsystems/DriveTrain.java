@@ -178,4 +178,10 @@ public class DriveTrain extends Subsystem {
 		}
 		return true;
 	}
+	
+	public void driveByStraightPOVValue(double value) {
+		int POV = Robot.oi.getdriveStick().getPOV();
+		double moveValue = POV == -1 ? 0 : POV / 90 -1;  
+		robotDrive21.arcadeDrive(moveValue , 0);
+	}
 }

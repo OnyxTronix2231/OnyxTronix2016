@@ -59,7 +59,7 @@ public class AutoCollect extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.RB.getValue())){
-    		return Robot.reloader.isCollected();
+    		return Robot.reloader.isCollected() || Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.START.getValue());
     	}
     	return false;
     }
