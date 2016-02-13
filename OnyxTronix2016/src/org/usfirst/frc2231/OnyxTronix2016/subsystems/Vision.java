@@ -69,7 +69,7 @@ public class Vision extends Subsystem {
     	double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
     	double hypotenuse = 0; // "YETER"
     	double distance = 0;// The distance between the y axis of the target and the robot
-    	double areaRatio = 0; // The ratio between the the particle area and the area of the bounding recticle of the area
+//    	double areaRatio = 0; // The ratio between the the particle area and the area of the bounding recticle of the area
     	
     	private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot
     	private final double HORIZONTAL_APERTURE_ANGLE = 47;
@@ -137,7 +137,7 @@ public class Vision extends Subsystem {
 			
 		}
 
-		public void calculateDistance(newParticleAnalysisReport par) throws NIVisionException {
+		public double calculateDistance(newParticleAnalysisReport par) throws NIVisionException {
 			
 			// Rigler's Version
 			buttomAngle = VERTICLE_APERTURE_ANGLE * (par.imageHeight - par.center_mass_y) / par.imageHeight;
@@ -150,16 +150,15 @@ public class Vision extends Subsystem {
 //			 targetAngle = (VERTICLE_APERTURE_ANGLE/2+ANGLE_TO_FLOOR)*(newFrame-par.center_mass_y)/newFrame;
 //			 targetAngle *= Math.PI/180;
 //			 distance = (TARGET_HEIGHT-ROBOT_HEIGHT)/Math.tan(targetAngle);
+			
+			return distance;
 		}
 
-		public void calculateAreaRatio(newParticleAnalysisReport par) throws NIVisionException {
+		public double calculateAreaRatio(newParticleAnalysisReport par) throws NIVisionException {
 
-			areaRatio = par.particleArea/(par.boundingRectHeight * par.boundingRectWidth);
+			 return par.particleArea/(par.boundingRectHeight * par.boundingRectWidth);
 		}
 		
-//		public boolean mayShoot(){
-//			
-//		}
     }
 }
 
