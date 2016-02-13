@@ -14,6 +14,7 @@ package org.usfirst.frc2231.OnyxTronix2016.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
+import org.usfirst.frc2231.OnyxTronix2016.StaticMembers;
 import org.usfirst.frc2231.OnyxTronix2016.StickButtons;
 
 /**
@@ -59,7 +60,7 @@ public class AutoCollect extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.RB.getValue())){
-    		return Robot.reloader.isCollected() || Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.START.getValue());
+    		return Robot.reloader.isCollected() || StaticMembers.isEmergencyState;
     	}
     	return false;
     }

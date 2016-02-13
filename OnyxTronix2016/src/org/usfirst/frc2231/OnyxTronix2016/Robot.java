@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc2231.OnyxTronix2016.commands.AutoCycle;
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoLoaded;
 import org.usfirst.frc2231.OnyxTronix2016.subsystems.*;
 
@@ -124,6 +125,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("running command: Reloader", reloader.getCurrentCommand() + "");
         SmartDashboard.putString("running command: Collector", collector.getCurrentCommand() + "");
         SmartDashboard.putString("running command: Shooter", shooter.getCurrentCommand() + "");
+		SmartDashboard.putNumber("DriveTrainLeftCopy:", RobotMap.driveTrainLeftCopy.get());
+		SmartDashboard.putNumber("DriveTrainRightCopy:", RobotMap.driveTrainRightCopy.get());
     }
 
     /**
