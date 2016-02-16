@@ -49,12 +49,8 @@ public class DriveTrain extends Subsystem {
     private final Solenoid openShifter = RobotMap.driveTrainOpenShifter;
     private final Ultrasonic ultrasonic1 = RobotMap.driveTrainUltrasonic1;
     private final Ultrasonic ultrasonic2 = RobotMap.driveTrainUltrasonic2;
-    private final SpeedController leftCopy = RobotMap.driveTrainLeftCopy;
     private final Encoder leftEncoder = RobotMap.driveTrainLeftEncoder;
-    private final PIDController leftPIDController = RobotMap.driveTrainLeftPIDController;
     private final Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
-    private final SpeedController rightCopy = RobotMap.driveTrainRightCopy;
-    private final PIDController rightPIDController = RobotMap.driveTrainRightPIDController;
     private final SpeedController right = RobotMap.driveTrainRight;
     private final SpeedController left = RobotMap.driveTrainLeft;
     private final RobotDrive robotDrive21 = RobotMap.driveTrainRobotDrive21;

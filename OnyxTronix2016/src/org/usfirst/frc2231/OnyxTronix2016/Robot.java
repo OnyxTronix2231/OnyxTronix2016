@@ -125,8 +125,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("running command: Reloader", reloader.getCurrentCommand() + "");
         SmartDashboard.putString("running command: Collector", collector.getCurrentCommand() + "");
         SmartDashboard.putString("running command: Shooter", shooter.getCurrentCommand() + "");
-		SmartDashboard.putNumber("DriveTrainLeftCopy:", RobotMap.driveTrainLeftCopy.get());
-		SmartDashboard.putNumber("DriveTrainRightCopy:", RobotMap.driveTrainRightCopy.get());
     }
 
     /**
