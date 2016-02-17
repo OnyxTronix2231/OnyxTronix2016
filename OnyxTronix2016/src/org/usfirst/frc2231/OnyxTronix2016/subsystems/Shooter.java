@@ -14,7 +14,6 @@ package org.usfirst.frc2231.OnyxTronix2016.subsystems;
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
 import org.usfirst.frc2231.OnyxTronix2016.RobotMap;
 import org.usfirst.frc2231.OnyxTronix2016.commands.*;
-import org.usfirst.frc2231.OnyxTronix2016.subsystems.Vision.VisionCommands;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
