@@ -109,7 +109,6 @@ public class Shooter extends Subsystem {
 	}
 	
 	public double calculateRate() {
-		int distance = 100; //will be given by vision, waiting for patch
 		return SHOOTING_SLOPE * Robot.vision.getDistance() + SHOOTING_INTERCEPT;
 	}
 }
