@@ -237,5 +237,9 @@ public class Vision extends Subsystem implements PIDSource, Runnable {
 		return this.distance;
 	}
 	
+	public double getDistance(){
+		return this.distance;
+	}
+	
 }
 
