@@ -241,5 +241,9 @@ public class Vision extends Subsystem implements PIDSource, Runnable {
 		return this.distance;
 	}
 	
+	public newParticleAnalysisReport getReport(){
+		return this.particleReport;
+	}
+	
 }
 
