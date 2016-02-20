@@ -41,7 +41,7 @@ public class ProcessImage extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.vision.setProcessing(true);
-    	Thread t = new Thread(Robot.vision);
+    	Thread t = new Thread(Robot.vision.new VisionPID());
     	t.start();
     }
 

@@ -46,7 +46,7 @@ public class CenterByVision extends Command {
     protected void initialize() {
     	if(!Robot.vision.isProcessing()){
     		Robot.vision.setProcessing(true);
-        	Thread t = new Thread(Robot.vision);
+        	Thread t = new Thread(Robot.vision.new VisionPID());
         	t.start();
     	}
     }
