@@ -90,22 +90,22 @@ public class RobotMap {
         collectorleftOpenSolenoid = new Solenoid(0, 4);
         LiveWindow.addActuator("Collector", "leftOpenSolenoid", collectorleftOpenSolenoid);
         
-        collectorrightOpenSolenoid = new Solenoid(0, 5);
+        collectorrightOpenSolenoid = new Solenoid(0, 3);
         LiveWindow.addActuator("Collector", "rightOpenSolenoid", collectorrightOpenSolenoid);
         
         collectorrightCloseSolenoid = new Solenoid(0, 2);
         LiveWindow.addActuator("Collector", "rightCloseSolenoid", collectorrightCloseSolenoid);
         
-        collectorleftCloseSolenoid = new Solenoid(0, 1);
+        collectorleftCloseSolenoid = new Solenoid(0, 5);
         LiveWindow.addActuator("Collector", "leftCloseSolenoid", collectorleftCloseSolenoid);
         
         collectorCompressor = new Compressor(0);
         
         
-        driveTrainCloseShifter = new Solenoid(0, 3);
+        driveTrainCloseShifter = new Solenoid(0, 0);
         LiveWindow.addActuator("DriveTrain", "CloseShifter", driveTrainCloseShifter);
         
-        driveTrainOpenShifter = new Solenoid(0, 6);
+        driveTrainOpenShifter = new Solenoid(0, 1);
         LiveWindow.addActuator("DriveTrain", "OpenShifter", driveTrainOpenShifter);
         
         driveTrainUltrasonic1 = new Ultrasonic(5, 4);

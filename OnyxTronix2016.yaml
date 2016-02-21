@@ -45,7 +45,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '5'
+          value: '3'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -77,7 +77,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '1'
+          value: '5'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -120,7 +120,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '3'
+          value: '0'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -136,7 +136,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '6'
+          value: '1'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
