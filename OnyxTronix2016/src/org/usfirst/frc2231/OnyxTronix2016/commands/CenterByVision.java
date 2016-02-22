@@ -45,7 +45,7 @@ public class CenterByVision extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(!Robot.vision.isProcessing()){
-    		Robot.vision.setProcessing(true);
+    		Robot.vision.startProcessing();
         	Thread t = new Thread(Robot.vision.new VisionPID());
         	t.start();
     	}
@@ -78,12 +78,12 @@ public class CenterByVision extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-		Robot.vision.setProcessing(false);
+		Robot.vision.stopProcessing();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-		Robot.vision.setProcessing(false);
+		Robot.vision.stopProcessing();
     }
 }

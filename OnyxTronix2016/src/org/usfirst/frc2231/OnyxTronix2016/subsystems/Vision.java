@@ -24,6 +24,7 @@ import com.ni.vision.NIVision.ParticleFilterOptions;
 import com.ni.vision.NIVision.RGBValue;
 import com.ni.vision.NIVision.ROI;
 
+import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -39,10 +40,9 @@ import edu.wpi.first.wpilibj.vision.AxisCamera;
 public class Vision extends Subsystem {
 	
 	AxisCamera camera;
-    private boolean isProcessing = true;
-    private BuiltInAccelerometer accelerometer = RobotMap.visionAccelerometer;
+    protected boolean isProcessing = true;
+    private ADXL362 accelerometer = RobotMap.visionAccelerometer;
     private PIDSourceType pidSourceType;
-    
     private double buttomAngle = 0;//The angle between the target to the end of the picture
     private double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
     protected double distance = 0; // The distance between the robot and the target
@@ -101,10 +101,14 @@ public class Vision extends Subsystem {
 		return isProcessing;
 	}
 
-	public void setProcessing(boolean isProcessing) {
-		this.isProcessing = isProcessing;
-	}		 
-    	
+	public void stopProcessing() {
+		this.isProcessing = false;
+	}	
+	
+	public void startProcessing(){
+		this.isProcessing = true;
+	}
+    
 	public newParticleAnalysisReport imageProcessing() {
 					
 		try {
@@ -202,7 +206,7 @@ public class Vision extends Subsystem {
 	}
 	
 	public class VisionPID extends Vision implements PIDSource, Runnable{
-		
+
 		//Executor.
 		@Override
 		public void run(){			
@@ -235,7 +239,7 @@ public class Vision extends Subsystem {
 			}
 		
 			return this.distance;
-		}
+		}	
 	}
 }
 
