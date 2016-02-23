@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	Robot.vision.setProcessing(false);
+    	//Robot.vision.setProcessing(false);
     	Scheduler.getInstance().removeAll();
 
     }
@@ -132,6 +132,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("running command: Shooter", shooter.getCurrentCommand() + "");
 		SmartDashboard.putNumber("DriveTrainLeftCopy:", RobotMap.driveTrainLeftCopy.get());
 		SmartDashboard.putNumber("DriveTrainRightCopy:", RobotMap.driveTrainRightCopy.get());
+		SmartDashboard.putNumber("Shooter Rate - Encoder(Left)", RobotMap.shooterShooterLeftEncoder.getRate());
+		SmartDashboard.putNumber("Shooter PID Rate ", RobotMap.shooterLeftPIDController.getSetpoint());
+		
 		
     }
 
