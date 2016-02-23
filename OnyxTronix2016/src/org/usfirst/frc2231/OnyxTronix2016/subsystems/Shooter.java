@@ -105,4 +105,8 @@ public class Shooter extends Subsystem {
 		shooterLeftMotor.set(spinSpeed);
 		shooterRightMotor.set(spinSpeed);
 	}
+	
+//	public boolean mayShoot(double areasRatio){
+//		
+//	}
 }

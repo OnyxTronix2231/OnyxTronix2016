@@ -74,6 +74,7 @@ public class AutoCollect extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	
+    	Robot.collector.roll(0);
+    	Robot.reloader.load(0);
     }
 }
