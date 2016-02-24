@@ -18,7 +18,7 @@ Children:
           default: '0'
           name: Output Channel (PWM)
           validators: &id011 [PWMOutput]
-          value: '2'
+          value: '5'
       Base: Speed Controller
       Name: CollectorSpinner
     - Children: []
@@ -28,7 +28,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: &id002 [Solenoid]
-          value: '0'
+          value: '4'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id003 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
@@ -45,7 +45,39 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '1'
+          value: '3'
+        Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id003
+          default: '0'
+          name: Output PCM (Solenoid)
+          validators: *id004
+          value: '0'
+      Base: Solenoid
+      Name: rightOpenSolenoid
+    - Children: []
+      Properties:
+        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id001
+          default: '0'
+          name: Output Channel (Solenoid)
+          validators: *id002
+          value: '2'
+        Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id003
+          default: '0'
+          name: Output PCM (Solenoid)
+          validators: *id004
+          value: '0'
+      Base: Solenoid
+      Name: rightCloseSolenoid
+    - Children: []
+      Properties:
+        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id001
+          default: '0'
+          name: Output Channel (Solenoid)
+          validators: *id002
+          value: '5'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -88,7 +120,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '2'
+          value: '0'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -104,7 +136,7 @@ Children:
           default: '0'
           name: Output Channel (Solenoid)
           validators: *id002
-          value: '3'
+          value: '1'
         Output PCM (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id003
           default: '0'
@@ -666,7 +698,7 @@ Children:
           default: '0'
           name: Output Channel (PWM)
           validators: *id011
-          value: '5'
+          value: '2'
       Base: Speed Controller
       Name: ReloaderWheel
     - Children: []
@@ -1260,7 +1292,7 @@ Children:
     Base: Command
     Name: AutoCollect
   - Children: []
-    Properties: &id030
+    Properties:
       Parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
         name: Parameters
@@ -1514,7 +1546,7 @@ Children:
         name: Commands
         validators: *id026
         value:
-        - &id031 !!robotbuilder.data.CommandGroupEntry
+        - &id030 !!robotbuilder.data.CommandGroupEntry
           command:
             base: &id029
               help: A command specifies an action that the robot can perform.
@@ -1549,8 +1581,22 @@ Children:
         - !!robotbuilder.data.CommandGroupEntry
           command:
             base: *id029
-            name: AutoLoaded
-            properties: *id030
+            name: AutoShoot
+            properties: &id031
+              Parameters: !!robotbuilder.data.properties.ParametersProperty
+                default: []
+                name: Parameters
+                validators: null
+                value: []
+              Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+                name: Requires, type: Subsystem, validators: null, value: Reloader}
+              Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+                default: []
+                name: Parameter presets
+                validators: null
+                value: []
+              Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {
+                default: true, name: Button on SmartDashboard, validators: null, value: true}
           hasMatch: true
           order: Sequential
           parameters:
@@ -1558,7 +1604,7 @@ Children:
             name: ParametersProperty
             validators: null
             value: []
-          previous: *id031
+          previous: *id030
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command Group
@@ -1582,21 +1628,7 @@ Children:
     Base: Command
     Name: ReloadBackward
   - Children: []
-    Properties:
-      Parameters: !!robotbuilder.data.properties.ParametersProperty
-        default: []
-        name: Parameters
-        validators: null
-        value: []
-      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: Reloader}
-      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: []
-        name: Parameter presets
-        validators: null
-        value: []
-      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
-        name: Button on SmartDashboard, validators: null, value: true}
+    Properties: *id031
     Base: Command
     Name: AutoShoot
   - Children: []

@@ -25,7 +25,6 @@ import com.ni.vision.NIVision.RGBValue;
 import com.ni.vision.NIVision.ROI;
 
 import edu.wpi.first.wpilibj.ADXL362;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -42,32 +41,31 @@ public class Vision extends Subsystem {
 	AxisCamera camera;
     protected boolean isProcessing = true;
     private ADXL362 accelerometer = RobotMap.visionAccelerometer;
-    private PIDSourceType pidSourceType;
-    private double buttomAngle = 0;//The angle between the target to the end of the picture
-    private double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
-    protected double distance = 0; // The distance between the robot and the target
-    
-    private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot (HORIZONTAL_APERTURE_ANGLE = 47)
-    private final double ROBOT_HEIGHT =  0.92; // The height of the robot(m)
-    private final double TARGET_HEIGHT = 2.34; // The height of the target(m)
-    	  	
+    protected PIDSourceType pidSourceType;
     /*Images*/
     HSLImage inputImage;
     Image processImage;
     // Particle Report of the binary image
-    newParticleAnalysisReport particleReport = null;	
+    newParticleAnalysisReport particleReport = null;
+    
+    protected double distance = 0; // The distance between the robot and the target   
+    private double buttomAngle = 0;//The angle between the target to the end of the picture
+    private double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
 
+    private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot (HORIZONTAL_APERTURE_ANGLE = 47)
+    private final double ROBOT_HEIGHT =  0.92; // The height of the robot(m)
+    private final double TARGET_HEIGHT = 2.34; // The height of the target(m)
     /*Ranges of the HSV threshold operation*/
-    public final int HUE_LOW = 80;
-    public final int HUE_HIGH = 125;
-    public final int SATURATION_LOW = 50;
-    public final int SATURATION_HIGH = 255;
-    public final int VALUE_LOW = 0;
-    public final int VALUE_HIGH = 255;   	
+    private final int HUE_LOW = 80;
+    private final int HUE_HIGH = 125;
+    private final int SATURATION_LOW = 50;
+    private final int SATURATION_HIGH = 255;
+    private final int VALUE_LOW = 0;
+    private final int VALUE_HIGH = 255;   	
     	
     /*Limit values of the particle filter operation*/
-    public final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
-    public final double MAX_AREA = 6000; // The max area(in pixels) of an object in the processing operation
+    private final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
+    private final double MAX_AREA = 6000; // The max area(in pixels) of an object in the processing operation
     	
     /*In processing values*/
     double maxArea = 0;
@@ -101,14 +99,14 @@ public class Vision extends Subsystem {
 		return isProcessing;
 	}
 
-	public void stopProcessing() {
-		this.isProcessing = false;
+	public void startProcessing() {
+		this.isProcessing = true;
 	}	
 	
-	public void startProcessing(){
-		this.isProcessing = true;
+	public void stopProcessing(){
+		this.isProcessing = false;
 	}
-    
+
 	public newParticleAnalysisReport imageProcessing() {
 					
 		try {
@@ -206,7 +204,7 @@ public class Vision extends Subsystem {
 	}
 	
 	public class VisionPID extends Vision implements PIDSource, Runnable{
-
+				
 		//Executor.
 		@Override
 		public void run(){			
@@ -234,12 +232,12 @@ public class Vision extends Subsystem {
 				this.distance = calculateDistance(particleReport);
 				SmartDashboard.putNumber("Distance From Target", calculateAreaRatio(particleReport));
 			} catch (NIVisionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 			return this.distance;
-		}	
+		}
+		
 	}
 }
 
