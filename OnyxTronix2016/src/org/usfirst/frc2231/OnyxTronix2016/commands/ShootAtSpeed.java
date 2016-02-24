@@ -56,8 +56,6 @@ public class ShootAtSpeed extends Command {
 	protected void execute() {
 		if(RobotMap.shooterLeftPIDController.onTarget()){
 			Robot.shooter.isReady = true;
-		} else {
-			Robot.shooter.isReady = false;
 		}
 		
 	}
