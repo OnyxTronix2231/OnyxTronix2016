@@ -13,6 +13,8 @@ package org.usfirst.frc2231.OnyxTronix2016.subsystems;
 
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
 import org.usfirst.frc2231.OnyxTronix2016.RobotMap;
+import org.usfirst.frc2231.OnyxTronix2016.StaticMembers;
+import org.usfirst.frc2231.OnyxTronix2016.StickButtons.Buttons;
 import org.usfirst.frc2231.OnyxTronix2016.commands.*;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -99,6 +101,10 @@ public class Shooter extends Subsystem {
 	{	
 		Robot.reloader.load(0);
 		Robot.collector.roll(0);
+	}
+	
+	public boolean isReadyToShoot(){
+		return Robot.oi.getbuttonStick().getRawButton(Buttons.RB.getValue()) && !Robot.collector.isCollectorOpen && (isReady && Robot.reloader.isCollected() || StaticMembers.isEmergencyState);
 	}
 	
 	public void spinWheelsAtSpeed(double speed) {

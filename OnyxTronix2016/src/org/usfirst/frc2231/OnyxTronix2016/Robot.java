@@ -136,6 +136,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter PID Rate ", RobotMap.shooterLeftPIDController.getSetpoint());
 		
 		
+		SmartDashboard.putBoolean("Is ready to shoot: ", Robot.shooter.isReadyToShoot());
     }
 
     /**
