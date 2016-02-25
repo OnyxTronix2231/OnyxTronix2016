@@ -45,8 +45,8 @@ public class AutoShoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.oi.getbuttonStick().getRawButton(Buttons.RB.getValue()) && (Robot.shooter.isReady() && Robot.reloader.isCollected() || StaticMembers.isEmergencyState )) {
-    	Robot.reloader.load(1);
+    	if(Robot.shooter.isReadyToShoot()) {
+    		Robot.reloader.load(1);
     	}
     }
 
