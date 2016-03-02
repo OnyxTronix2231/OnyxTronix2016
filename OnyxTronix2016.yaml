@@ -18,7 +18,7 @@ Children:
           default: '0'
           name: Output Channel (PWM)
           validators: &id007 [PWMOutput]
-          value: '5'
+          value: '2'
       Base: Speed Controller
       Name: CollectorSpinner
     - Children: []
@@ -171,7 +171,7 @@ Children:
             default: '0'
             name: Channel A Channel (Digital)
             validators: &id009 [DigitalChannel]
-            value: '0'
+            value: '4'
           Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
             name: Distance Per Pulse, validators: null, value: 1.0}
           PID Source: !!robotbuilder.data.properties.ChoicesProperty
@@ -195,7 +195,7 @@ Children:
             default: '0'
             name: Channel B Channel (Digital)
             validators: &id013 [DigitalChannel]
-            value: '1'
+            value: '5'
         Base: Quadrature Encoder
         Name: LeftEncoder
       Properties:
@@ -247,7 +247,7 @@ Children:
             default: '0'
             name: Channel A Channel (Digital)
             validators: *id009
-            value: '2'
+            value: '6'
           Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
             name: Distance Per Pulse, validators: null, value: 1.0}
           PID Source: !!robotbuilder.data.properties.ChoicesProperty
@@ -269,7 +269,7 @@ Children:
             default: '0'
             name: Channel B Channel (Digital)
             validators: *id013
-            value: '3'
+            value: '7'
         Base: Quadrature Encoder
         Name: RightEncoder
       - Children: []
@@ -389,6 +389,17 @@ Children:
           name: Safety Enabled, validators: null, value: true}
       Base: Robot Drive 2
       Name: Robot Drive 2 1
+    - Children: []
+      Properties:
+        CAN ID: !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20']
+          default: '0'
+          name: CAN ID
+          validators: null
+          value: '1'
+      Base: PowerDistributionPanel
+      Name: Pdp
     Properties:
       Default command parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
@@ -413,9 +424,9 @@ Children:
             default: '0'
             name: Channel A Channel (Digital)
             validators: *id009
-            value: '11'
+            value: '2'
           Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-            name: Distance Per Pulse, validators: null, value: 1.0}
+            name: Distance Per Pulse, validators: null, value: 0.001}
           PID Source: !!robotbuilder.data.properties.ChoicesProperty
             choices: *id010
             default: kRate
@@ -435,7 +446,7 @@ Children:
             default: '0'
             name: Channel B Channel (Digital)
             validators: *id013
-            value: '12'
+            value: '3'
         Base: Quadrature Encoder
         Name: ShooterRightEncoder
       - Children: []
@@ -519,9 +530,9 @@ Children:
             default: '0'
             name: Channel A Channel (Digital)
             validators: *id009
-            value: '9'
+            value: '0'
           Distance Per Pulse: !!robotbuilder.data.properties.DoubleProperty {default: 1,
-            name: Distance Per Pulse, validators: null, value: 1.0}
+            name: Distance Per Pulse, validators: null, value: 0.001}
           PID Source: !!robotbuilder.data.properties.ChoicesProperty
             choices: *id010
             default: kRate
@@ -541,7 +552,7 @@ Children:
             default: '0'
             name: Channel B Channel (Digital)
             validators: *id013
-            value: '10'
+            value: '1'
         Base: Quadrature Encoder
         Name: ShooterLeftEncoder
       Properties:
@@ -662,7 +673,7 @@ Children:
           default: '0'
           name: Output Channel (PWM)
           validators: *id007
-          value: '2'
+          value: '5'
       Base: Speed Controller
       Name: ReloaderWheel
     - Children: []
@@ -700,7 +711,7 @@ Children:
         validators: null
         value: []
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: ProcessImage}
+        name: Default Command, type: Command, validators: null, value: None}
       Constants: !!robotbuilder.data.properties.ConstantsProperty
         default: []
         name: Constants

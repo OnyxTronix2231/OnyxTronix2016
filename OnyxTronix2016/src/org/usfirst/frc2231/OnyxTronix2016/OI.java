@@ -96,7 +96,7 @@ public class OI {
         buttonStick = new Joystick(1);
         
         prepareShooterWheels = new JoystickButton(buttonStick, 5);
-        prepareShooterWheels.whileHeld(new ShootAtSpeed());
+        prepareShooterWheels.whileHeld(new ShootAtSpeed(1));
         emergencyStop = new JoystickButton(buttonStick, 7);
         emergencyStop.whenPressed(new StopEmergency());
         emergencyStart = new JoystickButton(buttonStick, 8);
