@@ -80,6 +80,6 @@ public class Collector extends Subsystem {
 	}
 
 	public void roll(double speed) {
-		collectorSpinner.set(-speed);
+		collectorSpinner.set(speed);
 	}
 }
