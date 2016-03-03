@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoCycle;
 import org.usfirst.frc2231.OnyxTronix2016.commands.AutoLoaded;
+import org.usfirst.frc2231.OnyxTronix2016.commands.Autonomous_ManualTimeouts;
+import org.usfirst.frc2231.OnyxTronix2016.commands.DriveByDistance;
 import org.usfirst.frc2231.OnyxTronix2016.subsystems.*;
 
 /**
@@ -95,6 +97,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	autonomousCommand = new Autonomous_ManualTimeouts();
         if (autonomousCommand != null) autonomousCommand.start();
     }
 

@@ -125,7 +125,7 @@ public class DriveTrain extends Subsystem {
 
 	public void arcadeDrive(Joystick stick) {
 		robotDrive21.arcadeDrive(
-				directionValue * stick.getRawAxis(1),
+				-directionValue * stick.getRawAxis(1),
 				directionValue * stick.getRawAxis(4));
 
 	}
