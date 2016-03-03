@@ -147,7 +147,6 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-    	
     	OrderedAutonomous.addSequential((Command) obstacles.getSelected());
     	OrderedAutonomous.addSequential((Command) positions.getSelected());
     	OrderedAutonomous.addParallel(new ProcessImage());
