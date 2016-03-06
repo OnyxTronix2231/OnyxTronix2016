@@ -42,7 +42,7 @@ public class Vision extends Subsystem implements PIDSource{
 	
 	AxisCamera camera;
     protected boolean isProcessing = true;
-    private ADXL345_SPI accelerometer = RobotMap.visionAccelerometer;
+    private ADXL362 accelerometer = RobotMap.visionAccelerometer;
     protected PIDSourceType pidSourceType;
     /*Images*/
     HSLImage inputImage;
