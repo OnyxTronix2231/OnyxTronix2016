@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.vision.AxisCamera;
 /**
  *
  */
-public class Vision extends Subsystem {
+public class Vision extends Subsystem implements PIDSource{
 	
 	AxisCamera camera;
     protected boolean isProcessing = true;
@@ -200,33 +200,26 @@ public class Vision extends Subsystem {
 
 	public newParticleAnalysisReport getReport() {
 		return this.particleReport;
-	}
+	}	
 	
-	public class VisionPID extends Vision implements PIDSource, Runnable{
-				
-		//Executor.
-		@Override
-		public void run(){			
-			camera = RobotMap.shooterCamera;
-			while(isProcessing){
-				this.distance = pidGet();
-			}
-		}	
-		
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			pidSourceType = pidSource;
-		}
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		pidSourceType = pidSource;
+	}
 
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			return pidSourceType;
-		}
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return pidSourceType;
+	}
 
-
-		@Override
-		public double pidGet() {
-			particleReport = imageProcessing();
+	@Override
+	public double pidGet() {
+		particleReport = imageProcessing();
+//		if(pidSourceType == null) {
+//			 pidSourceType = PIDSourceType.kDisplacement;
+//		}
+		switch(pidSourceType){
+		case kDisplacement:
 			try {
 				this.distance = calculateDistance(particleReport);
 				SmartDashboard.putNumber("Distance From Target", calculateAreaRatio(particleReport));
@@ -235,8 +228,27 @@ public class Vision extends Subsystem {
 			}
 		
 			return this.distance;
+		case kRate:
+			try {
+				return calculateAreaRatio(particleReport);
+			} catch (NIVisionException e) {
+				e.printStackTrace();
+			}
+		 default:
+			return -9999;
 		}
-		
+	}
+	
+	public class VisionPID extends Vision implements Runnable{
+				
+		//Executor.
+		@Override
+		public void run(){			
+			camera = RobotMap.shooterCamera;
+			while(isProcessing){
+				this.distance = pidGet();
+			}
+		}
 	}
 }
 
