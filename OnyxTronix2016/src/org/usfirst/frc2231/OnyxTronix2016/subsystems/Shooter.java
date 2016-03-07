@@ -104,7 +104,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public boolean isReadyToShoot(){
-		return Robot.oi.getbuttonStick().getRawButton(Buttons.RB.getValue()) && !Robot.collector.isCollectorOpen && (isReady && Robot.reloader.isCollected() || StaticMembers.isEmergencyState);
+		return Robot.oi.getbuttonStick().getRawButton(Buttons.RB.getValue()) &&/* Robot.collector.isCollectorOpen &&*/ (isReady && Robot.reloader.isCollected() || StaticMembers.isEmergencyState);
 	}
 	
 	public void spinWheelsAtSpeed(double speed) {
@@ -113,12 +113,7 @@ public class Shooter extends Subsystem {
 		shooterRightMotor.set(spinSpeed);
 	}
 	
-	public boolean isReady(){
-		return this.isReady;
-	}
-	
-	public void setReady(boolean situation){
-		this.isReady = situation;
-	}
-	
+//	public boolean mayShoot(double areasRatio){
+//		
+//	}
 }

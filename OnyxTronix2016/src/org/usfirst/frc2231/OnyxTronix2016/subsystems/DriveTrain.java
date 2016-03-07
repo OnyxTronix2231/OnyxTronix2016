@@ -10,8 +10,6 @@
 
 package org.usfirst.frc2231.OnyxTronix2016.subsystems;
 
-import java.sql.Time;
-
 import javax.activation.CommandMap;
 
 import org.usfirst.frc2231.OnyxTronix2016.OnyxSpeedController;
@@ -23,7 +21,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Encoder.IndexingType;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -32,7 +29,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.OnyxPIDSubsystem;
@@ -71,10 +67,6 @@ public class DriveTrain extends Subsystem {
 	public final double ROBOT_PERIMETER = ROBOT_RADIUS * INCH * 2 * Math.PI;
 	private final int DEFAULT_POV_VALUE = -1;
 	private final int PULSE_SCALE = 360;
-    private ADXRS450_Gyro gyro = RobotMap.visionGyro;
-    public double currentAngle = 0;
-    public boolean isStable;
-
 	// Initialize your subsystem here
 	public DriveTrain() {
         RobotMap.driveTrainLeftEncoder.setDistancePerPulse(WHEEL_PERIMETER / PULSE_SCALE);
@@ -182,7 +174,7 @@ public class DriveTrain extends Subsystem {
 		if(isLeft) {
 //			leftPIDController.getSetpoint() - leftPIDController.
 		} else {
-		
+			
 		}
 		return true;
 	}
@@ -191,12 +183,5 @@ public class DriveTrain extends Subsystem {
 		int POV = Robot.oi.getdriveStick().getPOV();
 		double moveValue = POV == -1 ? 0 : POV / 90 -1;  
 		robotDrive21.arcadeDrive(moveValue , 0);
-	}
-	
-	public boolean isStable(){
-		isStable = this.currentAngle < gyro.getAngle();
-		Timer.delay(100);
-		this.currentAngle = gyro.getAngle();
-		return isStable;	
 	}
 }
