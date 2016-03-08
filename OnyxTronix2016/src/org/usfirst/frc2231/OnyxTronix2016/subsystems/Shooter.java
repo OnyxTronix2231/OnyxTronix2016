@@ -89,7 +89,7 @@ public class Shooter extends Subsystem {
 	public void spinWheels(boolean isSpinning) {
 		if (isSpinning) {
 			shooterLeftMotor.set(-1);
-			shooterRightMotor.set(1);
+			shooterRightMotor.set(-1);
 		} else {	
 			shooterLeftMotor.set(0);
 			shooterRightMotor.set(0);
@@ -110,7 +110,7 @@ public class Shooter extends Subsystem {
 	public void spinWheelsAtSpeed(double speed) {
 		double spinSpeed = speed > SENSITIVITY_VALUE ? speed : 0;
 		shooterLeftMotor.set(spinSpeed);
-		shooterRightMotor.set(spinSpeed);
+		shooterRightMotor.set(-spinSpeed);
 	}
 	
 //	public boolean mayShoot(double areasRatio){
