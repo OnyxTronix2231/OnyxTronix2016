@@ -53,7 +53,7 @@ public class Reloader extends Subsystem {
 	}
 	
 	public boolean isCollected() {
-		if(!isCollected.get()) {
+		if(isCollected.get()) {
 			return true;
 		}
 		return false;

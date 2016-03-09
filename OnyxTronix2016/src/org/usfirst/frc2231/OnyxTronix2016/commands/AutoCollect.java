@@ -50,7 +50,7 @@ public class AutoCollect extends Command {
     	boolean isNeededToCollect = Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.A.getValue()) && !Robot.reloader.isCollected();
     	if(isNeededToCollect) {
     		Robot.collector.roll(1);
-    		Robot.reloader.load(1);
+    		Robot.reloader.load(0.7);
     	} else {
     		Robot.collector.roll(0);
         	Robot.reloader.load(0);

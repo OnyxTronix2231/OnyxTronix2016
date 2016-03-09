@@ -22,6 +22,7 @@ import org.usfirst.frc2231.OnyxTronix2016.commands.DriveWithJoystick;
 import org.usfirst.frc2231.OnyxTronix2016.commands.OpenCollector;
 import org.usfirst.frc2231.OnyxTronix2016.commands.OpenShifters;
 import org.usfirst.frc2231.OnyxTronix2016.commands.ReloadBackward;
+import org.usfirst.frc2231.OnyxTronix2016.commands.Shoot;
 import org.usfirst.frc2231.OnyxTronix2016.commands.ShootAtSpeed;
 import org.usfirst.frc2231.OnyxTronix2016.commands.ShootByTimeout;
 import org.usfirst.frc2231.OnyxTronix2016.commands.StartCompressor;
