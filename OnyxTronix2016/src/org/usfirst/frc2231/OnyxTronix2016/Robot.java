@@ -141,7 +141,7 @@ public class Robot extends IterativeRobot {
 //        SmartDashboard.putString("running command: Shooter", shooter.getCurrentCommand() + "");
 //		SmartDashboard.putNumber("DriveTrainLeftCopy:", RobotMap.driveTrainLeftCopy.get());
 //		SmartDashboard.putNumber("Drvw2iveTrainRightCopy:", RobotMap.driveTrainRightCopy.get());
-//		SmartDashboard.putNumber("Shooter Rate - Encoder(Left)", RobotMap.shooterShooterLeftEncoder.getRate());
+		SmartDashboard.putNumber("Shooter Rate - Encoder(Left)", RobotMap.shooterShooterLeftEncoder.getRate());
 //		SmartDashboard.putNumber("Shooter PID Rate ", RobotMap.shooterLeftPIDController.getSetpoint());
 //		SmartDashboard.putString("Pdp Temp: ", RobotMap.driveTrainPdp.getTemperature() + "");
 //		

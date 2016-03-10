@@ -156,7 +156,7 @@ public class RobotMap {
         shooterShooterRightMotor = new Talon(4);
         LiveWindow.addActuator("Shooter", "ShooterRightMotor", (Talon) shooterShooterRightMotor);
         
-        shooterRightPIDController = new PIDController(1.0, 0.0, 0.0, 0.0, shooterShooterRightEncoder, shooterShooterRightMotor, 0.02);
+        shooterRightPIDController = new PIDController(0.07, 0.0, 0.03, 0.0, shooterShooterRightEncoder, shooterShooterRightMotor, 0.02);
         LiveWindow.addActuator("Shooter", "RightPIDController", shooterRightPIDController);
         shooterRightPIDController.setContinuous(false);
         shooterRightPIDController.setAbsoluteTolerance(0.2);
@@ -169,7 +169,7 @@ public class RobotMap {
         LiveWindow.addSensor("Shooter", "ShooterLeftEncoder", shooterShooterLeftEncoder);
         shooterShooterLeftEncoder.setDistancePerPulse(0.001);
         shooterShooterLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
-        shooterLeftPIDController = new PIDController(1.0, 0.0, 0.0, 0.0, shooterShooterLeftEncoder, shooterShooterLeftMotor, 0.02);
+        shooterLeftPIDController = new PIDController(0.07, 0.0, 0.03, 0.0, shooterShooterLeftEncoder, shooterShooterLeftMotor, 0.02);
         LiveWindow.addActuator("Shooter", "LeftPIDController", shooterLeftPIDController);
         shooterLeftPIDController.setContinuous(false);
         shooterLeftPIDController.setAbsoluteTolerance(0.2);

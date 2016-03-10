@@ -13,6 +13,7 @@ package org.usfirst.frc2231.OnyxTronix2016.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2231.OnyxTronix2016.Robot;
+import org.usfirst.frc2231.OnyxTronix2016.RobotMap;
 
 /**
  *
@@ -52,12 +53,18 @@ public class RollForward extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	RobotMap.shooterLeftPIDController.disable();
+    	RobotMap.shooterRightPIDController.disable();
+    	Robot.shooter.spinWheelsAtSpeed(0);
     	Robot.collector.roll(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	RobotMap.shooterLeftPIDController.disable();
+    	RobotMap.shooterRightPIDController.disable();
+    	Robot.shooter.spinWheelsAtSpeed(0);
     	Robot.collector.roll(0);
     }
 }
