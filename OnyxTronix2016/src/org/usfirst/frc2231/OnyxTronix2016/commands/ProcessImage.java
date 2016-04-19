@@ -47,7 +47,7 @@ public class ProcessImage extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+//    	System.out.println("Running Command");
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,13 +57,13 @@ public class ProcessImage extends Command {
 
     // Called once after isFinished returns true
 	protected void end() {
-		Robot.vision.stopProcessing();
+//		Robot.vision.stopProcessing();
 		
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.vision.stopProcessing();
+//		Robot.vision.stopProcessing();
     }
 }
