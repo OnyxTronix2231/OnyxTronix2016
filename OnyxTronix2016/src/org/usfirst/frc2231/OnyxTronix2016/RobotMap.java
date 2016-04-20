@@ -220,14 +220,14 @@ public class RobotMap {
         VisionLeftPIDController = new PIDController(0.07, 0, 0.03, Robot.vision, driveTrainLeft);
         LiveWindow.addActuator("Vision", "LeftPIDController", VisionLeftPIDController);
         VisionLeftPIDController.setContinuous(false);
-        VisionLeftPIDController.setAbsoluteTolerance(10);
+        VisionLeftPIDController.setAbsoluteTolerance(3);
         VisionLeftPIDController.setOutputRange(-0.4, 0.4);
         
         VisionRightPIDController = new PIDController(0.07, 0, 0.03, Robot.vision, driveTrainRight);
         LiveWindow.addActuator("Vision", "RightPIDController", VisionRightPIDController);
-        VisionLeftPIDController.setContinuous(false);
-        VisionLeftPIDController.setAbsoluteTolerance(10);
-        VisionLeftPIDController.setOutputRange(-0.4, 0.4);
+        VisionRightPIDController.setContinuous(false);
+        VisionRightPIDController.setAbsoluteTolerance(3);
+        VisionRightPIDController.setOutputRange(-0.4, 0.4);
     }
 }
 	

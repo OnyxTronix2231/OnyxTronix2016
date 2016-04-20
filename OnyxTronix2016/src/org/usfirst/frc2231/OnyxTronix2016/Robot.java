@@ -108,7 +108,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Positions : ",positions);
         
         SmartDashboard.putData("Obstacle : ",obstacles);
-        
+        SmartDashboard.putNumber("PID p: ", 0.07);
+        SmartDashboard.putNumber("PID i: ", 0);     
+        SmartDashboard.putNumber("PID d: ", 0.03);
+        SmartDashboard.putNumber("PID OutputRange: ", 0.4);
+
         OrderedAutonomous = new CommandGroup();
 
     }
@@ -199,6 +203,14 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Is ready to shoot: ", Robot.shooter.isReadyToShoot());
         SmartDashboard.putNumber("distance", vision.getDistance());
+        double p = SmartDashboard.getNumber("PID p: ");
+        double i = SmartDashboard.getNumber("PID i: ");     
+        double d = SmartDashboard.getNumber("PID d: ");
+        double outputRange = SmartDashboard.getNumber("PID OutputRange: ");
+        RobotMap.VisionLeftPIDController.setPID(p, i, d);
+        RobotMap.VisionRightPIDController.setPID(p, i, d);
+        RobotMap.VisionLeftPIDController.setOutputRange(-outputRange, outputRange);
+        RobotMap.VisionRightPIDController.setOutputRange(-outputRange, outputRange);
     }
 
     /**
@@ -206,6 +218,5 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
-        SmartDashboard.putNumber("distance", vision.getDistance());
     }
 }

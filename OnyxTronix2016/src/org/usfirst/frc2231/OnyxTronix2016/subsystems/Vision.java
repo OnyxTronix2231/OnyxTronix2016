@@ -51,10 +51,11 @@ public class Vision extends Subsystem implements PIDSource{
     // Particle Report of the binary image
     newParticleAnalysisReport particleReport = null;
     
-    protected double distance = 0; // The distance between the robot and the target   
+    protected double distance = 0; // The distance between the robot and the target
+	protected double distanceFromCenter = 0;
     private double buttomAngle = 0;//The angle between the target to the end of the picture
     private double targetAngle = 0; // The angle between the plumb to the y axis of the target and the distance between the target and the camera
-
+    public long timeStart;
     private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot (HORIZONTAL_APERTURE_ANGLE = 47)
     private final double ROBOT_HEIGHT =  0.355; // The height of the robot(m)
     private final double TARGET_HEIGHT = 2.34; // The height of the target(m)
@@ -158,14 +159,11 @@ public class Vision extends Subsystem implements PIDSource{
 						particleReport = par;
 					}
 				}						
-			}
-				
-			Thread.sleep(1000);
-				
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
+		
 		return particleReport;	
 	}
 
@@ -204,6 +202,10 @@ public class Vision extends Subsystem implements PIDSource{
 	public double getDistance(){
 		return this.distance;
 	}
+	
+	public double getDistanceFromCenter(){
+		return this.distanceFromCenter;
+	}
 
 	public newParticleAnalysisReport getReport() {
 		return this.particleReport;
@@ -219,15 +221,14 @@ public class Vision extends Subsystem implements PIDSource{
 		return pidSourceType;
 	}
 
-	@Override
-	public double pidGet() {
+	public void refreshValues() {
+		timeStart = System.currentTimeMillis();
+
+		
 		particleReport = imageProcessing();
-		System.out.println("particle report: " + particleReport + ", PID Source Type: " + pidSourceType);
-		if(pidSourceType == null) {
-			 pidSourceType = PIDSourceType.kDisplacement;
-		}
-		if(particleReport == null) {
-			return -9999;
+//		System.out.println("particle report: " + particleReport + ", PID Source Type: " + pidSourceType);
+		if(particleReport == null || pidSourceType == null) {
+			return;
 		}
 		switch(pidSourceType){
 		case kDisplacement:
@@ -237,16 +238,25 @@ public class Vision extends Subsystem implements PIDSource{
 			} catch (NIVisionException e) {
 				e.printStackTrace();
 			}
-		
-			return this.distance;
+			break;
 		case kRate:
-			try {
-				return calculateAreaRatio(particleReport);
-			} catch (NIVisionException e) {
-				e.printStackTrace();
-			}
+			distanceFromCenter = particleReport.center_mass_x_normalized * 100;
+			break;
 		 default:
+			break;
+		
+		}
+		
+	}
+	
+	@Override
+	public double pidGet() {
+		if(pidSourceType == null) {
 			return -9999;
+		} else if(pidSourceType == PIDSourceType.kDisplacement) {
+			return getDistance();
+		} else {
+			return getDistanceFromCenter();
 		}
 	}
 	
@@ -257,16 +267,27 @@ public class Vision extends Subsystem implements PIDSource{
 		public void run(){			
 			camera = RobotMap.shooterCamera;
 			while(isProcessing){
-				Robot.vision.distance = pidGet();
-				System.out.println("distance: " + Robot.vision.distance);
+				System.out.println("PID P: " + RobotMap.VisionLeftPIDController.getP() + " , PID I: " + RobotMap.VisionLeftPIDController.getI());
+				refreshValues();
 				try {
 					Robot.vision.inputImage.free();
 				} catch (NIVisionException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Robot.vision.processImage.free();
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			try {
+				Robot.vision.inputImage.free();
+			} catch (NIVisionException e) {
+				e.printStackTrace();
+			}
+			Robot.vision.processImage.free();
 		}
 	}
 }

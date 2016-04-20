@@ -24,6 +24,7 @@ import org.usfirst.frc2231.OnyxTronix2016.subsystems.Shooter;
  */
 public class CenterByVision extends Command {
 
+	private static final double TOLERANCE = 3;
 	public double currentAreaRatio;
 	public double lastAreaRatio;
 	final double ratioSensetivity = 0.8;
@@ -59,6 +60,7 @@ public class CenterByVision extends Command {
     	RobotMap.VisionLeftPIDController.setSetpoint(m_setpoint);
     	RobotMap.VisionRightPIDController.setSetpoint(m_setpoint);
     	Robot.shooter.setReady(false);
+    	Robot.vision.refreshValues();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -83,7 +85,16 @@ public class CenterByVision extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
+    	System.out.println("Left Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", differene: " + RobotMap.VisionLeftPIDController.getError() + ", is on target: " + RobotMap.VisionLeftPIDController.onTarget());
+    	System.out.println("Right Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", differene: " + RobotMap.VisionRightPIDController.getError() + ", is on target: " + RobotMap.VisionRightPIDController.onTarget());
+    	long tEnd = System.currentTimeMillis();
+		long tDelta = tEnd - Robot.vision.timeStart;
+		System.out.println("time delta: " + tDelta / 1000.0);
+    	//return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
+//    	if(Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
+//    		return true;
+//    	}
+    	return false;
     }
 
     // Called once after isFinished returns true
@@ -92,6 +103,7 @@ public class CenterByVision extends Command {
 		RobotMap.VisionLeftPIDController.disable();
 		RobotMap.VisionRightPIDController.disable();
 		Robot.shooter.setReady(true);
+		System.out.println("centered by vision");
     }
 
     // Called when another command which requires one or more of the same
