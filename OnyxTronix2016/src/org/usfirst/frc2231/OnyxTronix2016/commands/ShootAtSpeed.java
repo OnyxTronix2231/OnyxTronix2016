@@ -44,20 +44,22 @@ public class ShootAtSpeed extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		m_speed = Robot.shooter.speed;
-		RobotMap.shooterLeftPIDController.enable();
-        RobotMap.shooterRightPIDController.enable();
-        RobotMap.shooterRightPIDController.setSetpoint(-m_speed);
-        RobotMap.shooterLeftPIDController.setSetpoint(-m_speed);
-        RobotMap.shooterShooterLeftEncoder.reset();
-        RobotMap.shooterShooterRightEncoder.reset();
+//		RobotMap.shooterLeftPIDController.enable();
+//        RobotMap.shooterRightPIDController.enable();
+//        RobotMap.shooterRightPIDController.setSetpoint(-m_speed);
+//        RobotMap.shooterLeftPIDController.setSetpoint(-m_speed);
+//        RobotMap.shooterShooterLeftEncoder.reset();
+//        RobotMap.shooterShooterRightEncoder.reset();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(RobotMap.shooterLeftPIDController.onTarget()){
-			Robot.shooter.isReady = true;
-		}
-		
+//		if(RobotMap.shooterLeftPIDController.onTarget()){
+//			Robot.shooter.isReady = true;
+//		}
+		RobotMap.shooterShooterLeftMotor.set(-1);
+		RobotMap.shooterShooterRightMotor.set(-1);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -67,15 +69,19 @@ public class ShootAtSpeed extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.shooter.isReady = false;
-		RobotMap.shooterLeftPIDController.disable();
-		RobotMap.shooterRightPIDController.disable();
+		RobotMap.shooterShooterLeftMotor.set(0);
+		RobotMap.shooterShooterRightMotor.set(0);
+//		Robot.shooter.isReady = false;
+//		RobotMap.shooterLeftPIDController.disable();
+//		RobotMap.shooterRightPIDController.disable();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		RobotMap.shooterLeftPIDController.disable();
-		RobotMap.shooterRightPIDController.disable();
+		RobotMap.shooterShooterLeftMotor.set(0);
+		RobotMap.shooterShooterRightMotor.set(0);
+//		RobotMap.shooterLeftPIDController.disable();
+//		RobotMap.shooterRightPIDController.disable();
 	}
 }

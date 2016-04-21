@@ -123,7 +123,7 @@ public class OI {
         driveStick = new Joystick(0);
         
         centerOnTarget = new JoystickButton(driveStick, 1);
-        centerOnTarget.whenPressed(new CenterByVision(0));
+        centerOnTarget.whenPressed(new CenterByVision(32));
         right90 = new JoystickButton(driveStick, 2);
         right90.whenPressed(new TurnByDegrees(-90));
         left90 = new JoystickButton(driveStick, 3);

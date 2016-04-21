@@ -49,11 +49,11 @@ public class Reloader extends Subsystem {
 	}
 
 	public void load(double speed) {
-			reloaderWheel.set(speed);
+			reloaderWheel.set(-speed);
 	}
 	
 	public boolean isCollected() {
-		if(!isCollected.get()) {
+		if(isCollected.get()) {
 			return true;
 		}
 		return false;

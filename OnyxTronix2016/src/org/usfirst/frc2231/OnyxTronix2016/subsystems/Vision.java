@@ -252,12 +252,13 @@ public class Vision extends Subsystem implements PIDSource{
 	@Override
 	public double pidGet() {
 		if(pidSourceType == null) {
-			return -9999;
+			pidSourceType = PIDSourceType.kDisplacement;
 		} else if(pidSourceType == PIDSourceType.kDisplacement) {
 			return getDistance();
 		} else {
 			return getDistanceFromCenter();
 		}
+		return -9999;
 	}
 	
 	public class VisionPID implements Runnable{
@@ -267,7 +268,7 @@ public class Vision extends Subsystem implements PIDSource{
 		public void run(){			
 			camera = RobotMap.shooterCamera;
 			while(isProcessing){
-				System.out.println("PID P: " + RobotMap.VisionLeftPIDController.getP() + " , PID I: " + RobotMap.VisionLeftPIDController.getI());
+				System.out.println("PID P: " + RobotMap.VisionLeftPIDController.getP() + " , PID I: " + RobotMap.VisionLeftPIDController.getI());			
 				refreshValues();
 				try {
 					Robot.vision.inputImage.free();
@@ -278,7 +279,6 @@ public class Vision extends Subsystem implements PIDSource{
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
