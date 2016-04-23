@@ -45,9 +45,9 @@ public class AutoShoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.shooter.isReadyToShoot()) {
+//    	if(Robot.shooter.isReadyToShoot()) {
     		Robot.reloader.load(1);
-    	}
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

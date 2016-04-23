@@ -57,8 +57,7 @@ public class ShootAtSpeed extends Command {
 //		if(RobotMap.shooterLeftPIDController.onTarget()){
 //			Robot.shooter.isReady = true;
 //		}
-		RobotMap.shooterShooterLeftMotor.set(-1);
-		RobotMap.shooterShooterRightMotor.set(-1);
+		Robot.shooter.spinWheelsAtSpeed(m_speed);
 
 	}
 

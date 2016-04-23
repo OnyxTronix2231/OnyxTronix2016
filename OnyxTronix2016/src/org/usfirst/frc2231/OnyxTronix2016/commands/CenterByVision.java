@@ -25,6 +25,8 @@ import org.usfirst.frc2231.OnyxTronix2016.subsystems.Shooter;
  */
 public class CenterByVision extends Command {
 
+	private static final int EXTENDED_TOLERANCE_RANGE = 40;
+	private static final double MINIMUM_SPEED = 0.16;
 	private static final double TOLERANCE = 3;
 	public double currentAreaRatio;
 	public double lastAreaRatio;
@@ -66,16 +68,26 @@ public class CenterByVision extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        double startingSpeed = SmartDashboard.getNumber("PID OutputRange: ");
+        double  currentSpeed = startingSpeed;
+    	double error = Math.abs(RobotMap.VisionRightPIDController.getError());
+    	double slope = (startingSpeed - MINIMUM_SPEED) /  EXTENDED_TOLERANCE_RANGE;
     	m_setpoint = Robot.setPoint;
-    	double setPoint = SmartDashboard.getNumber("PID OutputRange: ");
-    	if(Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
-    		RobotMap.VisionLeftPIDController.setOutputRange(-0.15, 0.15);
-    		RobotMap.VisionRightPIDController.setOutputRange(-0.15, 0.15);
+    	if(error < TOLERANCE){
+    		RobotMap.VisionLeftPIDController.setOutputRange(0, 0);
+    		RobotMap.VisionRightPIDController.setOutputRange(0, 0);
+    	}else if(error < TOLERANCE + EXTENDED_TOLERANCE_RANGE){
+    		double y = slope * error + MINIMUM_SPEED;
+    		System.out.println("error: " + error + " Wide Tolerance: " + (TOLERANCE + EXTENDED_TOLERANCE_RANGE)  + "if: " + (error < TOLERANCE + EXTENDED_TOLERANCE_RANGE) + " speed: "+ y);
+    		RobotMap.VisionLeftPIDController.setOutputRange(-y, y);
+    		RobotMap.VisionRightPIDController.setOutputRange(-y, y);
     	}
     	else
     	{
-    		RobotMap.VisionLeftPIDController.setOutputRange(-setPoint, setPoint);
-    		RobotMap.VisionRightPIDController.setOutputRange(-setPoint, setPoint);
+        	//double setPoint = SmartDashboard.getNumber("PID OutputRange: ");
+    		RobotMap.VisionLeftPIDController.setOutputRange(-startingSpeed, startingSpeed);
+    		RobotMap.VisionRightPIDController.setOutputRange(-startingSpeed, startingSpeed);
+        	Robot.vision.timeStart = System.currentTimeMillis();
     	}
 //    	try {
 //    		if(!Robot.shooter.isReady){
@@ -96,16 +108,17 @@ public class CenterByVision extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("Left Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", differene: " + RobotMap.VisionLeftPIDController.getError() + ", is on target: " + RobotMap.VisionLeftPIDController.onTarget());
-    	System.out.println("Right Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", differene: " + RobotMap.VisionRightPIDController.getError() + ", is on target: " + RobotMap.VisionRightPIDController.onTarget());
+    	System.out.println("Left Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", difference: " + RobotMap.VisionLeftPIDController.getError() + ", is on target: " + RobotMap.VisionLeftPIDController.onTarget());
+    	System.out.println("Right Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", difference: " + RobotMap.VisionRightPIDController.getError() + ", is on target: " + RobotMap.VisionRightPIDController.onTarget());
     	long tEnd = System.currentTimeMillis();
 		long tDelta = tEnd - Robot.vision.timeStart;
 		System.out.println("time delta: " + tDelta / 1000.0);
-    	return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
-//    	if(Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
-//    		return true;
-//    	}
+//    	return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
+    	if(tDelta /1000.0 >= 1.5 && Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
+    		return true;
     	}
+    	return false;
+    }
 
     // Called once after isFinished returns true
     protected void end() {

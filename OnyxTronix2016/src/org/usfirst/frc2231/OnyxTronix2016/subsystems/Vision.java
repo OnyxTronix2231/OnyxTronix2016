@@ -60,16 +60,16 @@ public class Vision extends Subsystem implements PIDSource{
     private final double ROBOT_HEIGHT =  0.355; // The height of the robot(m)
     private final double TARGET_HEIGHT = 2.34; // The height of the target(m)
     /*Ranges of the HSV threshold operation*/
-    private final int HUE_LOW = 80;
-    private final int HUE_HIGH = 125;
-    private final int SATURATION_LOW = 50;
+    private final int HUE_LOW = 0;
+    private final int HUE_HIGH = 255;
+    private final int SATURATION_LOW = 0;
     private final int SATURATION_HIGH = 255;
-    private final int VALUE_LOW = 0;
+    private final int VALUE_LOW = 240;
     private final int VALUE_HIGH = 255;   	
     	
     /*Limit values of the particle filter operation*/
     private final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
-    private final double MAX_AREA = 6000; // The max area(in pixels) of an object in the processing operation
+    private final double MAX_AREA = 600000; // The max area(in pixels) of an object in the processing operation
     	
     /*In processing values*/
     double maxArea = 0;
@@ -222,9 +222,6 @@ public class Vision extends Subsystem implements PIDSource{
 	}
 
 	public void refreshValues() {
-		timeStart = System.currentTimeMillis();
-
-		
 		particleReport = imageProcessing();
 //		System.out.println("particle report: " + particleReport + ", PID Source Type: " + pidSourceType);
 		if(particleReport == null || pidSourceType == null) {
@@ -268,7 +265,6 @@ public class Vision extends Subsystem implements PIDSource{
 		public void run(){			
 			camera = RobotMap.shooterCamera;
 			while(isProcessing){
-				System.out.println("PID P: " + RobotMap.VisionLeftPIDController.getP() + " , PID I: " + RobotMap.VisionLeftPIDController.getI());			
 				refreshValues();
 				try {
 					Robot.vision.inputImage.free();

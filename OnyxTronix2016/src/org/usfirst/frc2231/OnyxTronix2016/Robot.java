@@ -112,8 +112,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("PID p: ", 0.001);
         SmartDashboard.putNumber("PID i: ", 0);     
         SmartDashboard.putNumber("PID d: ", 0.01);
-        SmartDashboard.putNumber("PID OutputRange: ", 0.2);
-        SmartDashboard.putNumber("PID Setpoint: ", 32);
+        SmartDashboard.putNumber("PID OutputRange: ", 0.25);
+        SmartDashboard.putNumber("PID Setpoint: ", 25);
 
         OrderedAutonomous = new CommandGroup();
 

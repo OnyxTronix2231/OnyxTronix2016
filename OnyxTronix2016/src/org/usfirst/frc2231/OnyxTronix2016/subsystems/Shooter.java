@@ -108,7 +108,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void spinWheelsAtSpeed(double speed) {
-		double spinSpeed = speed > SENSITIVITY_VALUE ? speed : 0;
+		double spinSpeed = speed > SENSITIVITY_VALUE ? -speed : 0;
 		shooterLeftMotor.set(spinSpeed);
 		shooterRightMotor.set(spinSpeed);
 	}
