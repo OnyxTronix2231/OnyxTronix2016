@@ -69,7 +69,7 @@ public class Vision extends Subsystem implements PIDSource{
     	
     /*Limit values of the particle filter operation*/
     private final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
-    private final double MAX_AREA = 600000; // The max area(in pixels) of an object in the processing operation
+    private final double MAX_AREA = 60000; // The max area(in pixels) of an object in the processing operation
     	
     /*In processing values*/
     double maxArea = 0;
@@ -111,7 +111,25 @@ public class Vision extends Subsystem implements PIDSource{
 	public void stopProcessing(){
 		this.isProcessing = false;
 	}
-
+	
+	public double getRate() {
+    	double distance = Robot.vision.getDistance();
+    	if(distance < 1.44 || distance > 5.015){
+    		return 0;
+    	}
+    	else if(distance <= 2.014){
+    		return 90;
+    	} else if(distance <= 2.735) {
+    		return -48.2839 * distance + 187.5802;
+    	} else if(distance <= 3.63) { 
+    		return 55;
+    	} else if(distance <= 5.015) {
+    		return Math.pow(29.1078, 0.1747 * distance); 
+    	} 
+    	return Robot.vision.getDistance();
+    }
+	
+	int counter = 0;
 	public newParticleAnalysisReport imageProcessing() {
 		
 		//Connect the camera if you don't want the program to crush since your particle report is null			
@@ -147,8 +165,11 @@ public class Vision extends Subsystem implements PIDSource{
 				
 			/*Second filter operation of the Threshold image - "Remove Small Object"(manual)*/
 			/*Sending a Particle Report of the largest object remaining*/
-				
+			if(counter >= 20){
 			System.out.println("number of particales: " + binaryImage.getNumberParticles());
+			counter = 0;
+			}
+			counter++;	
 			if (binaryImage.getNumberParticles() > 0) {
 				particleArray = binaryImage.getOrderedParticleAnalysisReports(binaryImage.getNumberParticles());				
 				maxArea = particleArray[0].particleArea;
@@ -170,10 +191,10 @@ public class Vision extends Subsystem implements PIDSource{
 	public double calculateDistance(newParticleAnalysisReport par) throws NIVisionException {
 			
 		/*Above the middle of the picture*/
-		System.out.println("y of center of mass : "+par.center_mass_y);
-		System.out.println("image height/2 : "+par.imageHeight/2);
+//		System.out.println("y of center of mass : "+par.center_mass_y);
+//		System.out.println("image height/2 : "+par.imageHeight/2);
 		if(par.center_mass_y <= par.imageHeight/2) {
-			System.out.println("above");
+//			System.out.println("above");
 			
 			buttomAngle = VERTICLE_APERTURE_ANGLE * (par.imageHeight - par.center_mass_y) / par.imageHeight;
 			targetAngle = buttomAngle - VERTICLE_APERTURE_ANGLE/2 + calculateAngleToFloor();
@@ -181,8 +202,8 @@ public class Vision extends Subsystem implements PIDSource{
 			
 		/*Below the middle of the picture*/
 		else {
-			System.out.println("below");
-			System.out.println(VERTICLE_APERTURE_ANGLE/2 * (par.imageHeight-par.center_mass_y) / (par.imageHeight/2));
+//			System.out.println("below");
+//			System.out.println(VERTICLE_APERTURE_ANGLE/2 * (par.imageHeight-par.center_mass_y) / (par.imageHeight/2));
 			targetAngle = calculateAngleToFloor() - VERTICLE_APERTURE_ANGLE/2 + VERTICLE_APERTURE_ANGLE/2 * (par.imageHeight-par.center_mass_y) / (par.imageHeight/2);
 		}
 			
@@ -195,7 +216,7 @@ public class Vision extends Subsystem implements PIDSource{
 	}
 		
 	public double calculateAngleToFloor(){
-		return 90-34.5;
+		return 90-52.0;
 //		return Math.acos(accelerometer.getY());
 	}
 	
@@ -272,7 +293,11 @@ public class Vision extends Subsystem implements PIDSource{
 				} catch (NIVisionException e) {
 					e.printStackTrace();
 				}
-				Robot.vision.processImage.free();
+				try {
+					Robot.vision.processImage.free();	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
@@ -284,7 +309,11 @@ public class Vision extends Subsystem implements PIDSource{
 			} catch (NIVisionException e) {
 				e.printStackTrace();
 			}
-			Robot.vision.processImage.free();
+			try {
+				Robot.vision.processImage.free();	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

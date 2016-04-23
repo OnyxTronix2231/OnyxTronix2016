@@ -26,7 +26,7 @@ import org.usfirst.frc2231.OnyxTronix2016.subsystems.Shooter;
 public class CenterByVision extends Command {
 
 	private static final int EXTENDED_TOLERANCE_RANGE = 40;
-	private static final double MINIMUM_SPEED = 0.16;
+	private static final double MINIMUM_SPEED = 0.165;
 	private static final double TOLERANCE = 3;
 	public double currentAreaRatio;
 	public double lastAreaRatio;
