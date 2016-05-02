@@ -16,12 +16,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Obstacles {
 	private static final int[] LOWBAR_POSITIONS = {1};
-	private static final int[] CATEGORY_A_POSITIONS = {3};
-	private static final int[] DEFAULT_POSITIONS = {2, 4, 5};
+//	private static final int[] CATEGORY_A_POSITIONS = {3};
+	private static final int[] DEFAULT_POSITIONS = {2, 3, 4, 5};
 	public enum Obstacle{
 		Lowbar(new Autonomous_LowBar(), LOWBAR_POSITIONS),
-		Gate(new Autonomous_Gate(), CATEGORY_A_POSITIONS),
-		ChevalDeFrise(new Autonomous_ChevalDeFrise(), CATEGORY_A_POSITIONS),
+		Gate(new Autonomous_Gate(), DEFAULT_POSITIONS),
+		ChevalDeFrise(new Autonomous_ChevalDeFrise(), DEFAULT_POSITIONS),
 		Moat(new Autonomous_Moat(), DEFAULT_POSITIONS),
 		Ramparts(new Autonomous_Ramparts(), DEFAULT_POSITIONS),
 		Rockwall(new Autonomous_Rockwall(), DEFAULT_POSITIONS),

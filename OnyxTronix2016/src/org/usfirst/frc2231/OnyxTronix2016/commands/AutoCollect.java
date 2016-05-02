@@ -46,20 +46,14 @@ public class AutoCollect extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	if(!Robot.reloader.isCollected()){
-    	boolean isNeededToCollect = Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.A.getValue()) && !Robot.reloader.isCollected();
-    	if(isNeededToCollect) {
     		Robot.collector.roll(1);
     		Robot.reloader.load(1);
-    	} else {
-    		Robot.collector.roll(0);
-        	Robot.reloader.load(0);
-    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {	
-    	return (Robot.reloader.isCollected() || StaticMembers.isEmergencyState) && Robot.oi.getbuttonStick().getRawButton(StickButtons.Buttons.RB.getValue());
+    	return Robot.reloader.isCollected();
     }
 
     // Called once after isFinished returns true

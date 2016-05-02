@@ -25,8 +25,8 @@ import org.usfirst.frc2231.OnyxTronix2016.subsystems.Shooter;
  */
 public class CenterByVision extends Command {
 
-	private static final int EXTENDED_TOLERANCE_RANGE = 40;
-	private static final double MINIMUM_SPEED = 0.165;
+	private static final int EXTENDED_TOLERANCE_RANGE = 60;
+	private static final double MINIMUM_SPEED = 0.1;
 	private static final double TOLERANCE = 3;
 	public double currentAreaRatio;
 	public double lastAreaRatio;
@@ -72,38 +72,19 @@ public class CenterByVision extends Command {
         double  currentSpeed = startingSpeed;
     	double error = Math.abs(RobotMap.VisionRightPIDController.getError());
     	double slope = (startingSpeed - MINIMUM_SPEED) /  EXTENDED_TOLERANCE_RANGE;
+    	double currentOutputRange = 0;
     	m_setpoint = Robot.setPoint;
-    	if(error < TOLERANCE){
-    		RobotMap.VisionLeftPIDController.setOutputRange(0, 0);
-    		RobotMap.VisionRightPIDController.setOutputRange(0, 0);
-    	}else if(error < TOLERANCE + EXTENDED_TOLERANCE_RANGE){
-    		double y = slope * error + MINIMUM_SPEED;
-    		System.out.println("error: " + error + " Wide Tolerance: " + (TOLERANCE + EXTENDED_TOLERANCE_RANGE)  + "if: " + (error < TOLERANCE + EXTENDED_TOLERANCE_RANGE) + " speed: "+ y);
-    		RobotMap.VisionLeftPIDController.setOutputRange(-y, y);
-    		RobotMap.VisionRightPIDController.setOutputRange(-y, y);
-    	}
-    	else
-    	{
-        	//double setPoint = SmartDashboard.getNumber("PID OutputRange: ");
-    		RobotMap.VisionLeftPIDController.setOutputRange(-startingSpeed, startingSpeed);
-    		RobotMap.VisionRightPIDController.setOutputRange(-startingSpeed, startingSpeed);
+    	if(error > TOLERANCE + EXTENDED_TOLERANCE_RANGE){
+    		currentOutputRange = startingSpeed;
+    		Robot.vision.timeStart = System.currentTimeMillis();
+    	}else if(error > TOLERANCE){
+    		currentOutputRange = slope * error + MINIMUM_SPEED;
+    		System.out.println("error: " + error + " Wide Tolerance: " + (TOLERANCE + EXTENDED_TOLERANCE_RANGE)  + "if: " + (error < TOLERANCE + EXTENDED_TOLERANCE_RANGE) + " speed: "+ currentOutputRange);
         	Robot.vision.timeStart = System.currentTimeMillis();
     	}
-//    	try {
-//    		if(!Robot.shooter.isReady){
-//    			currentAreaRatio = Robot.vision.calculateAreaRatio(Robot.vision.getReport());
-//    			if(currentAreaRatio >= ratioSensetivity && currentAreaRatio <= 1)
-//    				Robot.shooter.setReady(true);    			
-//    			if(currentAreaRatio > lastAreaRatio){
-//    				Robot.driveTrain.driveByDirection(90);
-//    			}
-//    			Robot.driveTrain.driveByDirection(270);
-//    			lastAreaRatio = currentAreaRatio;
-//    		}
-//		} catch (NIVisionException e) {
-//			e.printStackTrace();
-//		}
-    	
+    	RobotMap.VisionLeftPIDController.setOutputRange(-currentOutputRange, currentOutputRange);
+    	RobotMap.VisionRightPIDController.setOutputRange(-currentOutputRange, currentOutputRange);
+    	System.out.println("current output range: " + currentOutputRange);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -114,7 +95,7 @@ public class CenterByVision extends Command {
 		long tDelta = tEnd - Robot.vision.timeStart;
 		System.out.println("time delta: " + tDelta / 1000.0);
 //    	return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
-    	if(tDelta /1000.0 >= 1.5 && Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
+    	if(tDelta /1000.0 >= 0.8 && Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
     		return true;
     	}
     	return false;
