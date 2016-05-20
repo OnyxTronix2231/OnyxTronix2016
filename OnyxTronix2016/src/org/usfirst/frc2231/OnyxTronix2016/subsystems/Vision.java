@@ -56,14 +56,23 @@ public class Vision extends Subsystem implements PIDSource{
     private final double VERTICLE_APERTURE_ANGLE = 36.12; // The the aperture angle of the robot (HORIZONTAL_APERTURE_ANGLE = 47)
     private final double ROBOT_HEIGHT =  0.355; // The height of the robot(m)
     private final double TARGET_HEIGHT = 2.34; // The height of the target(m)
+    
     /*Ranges of the HSV threshold operation*/
-    private final int HUE_LOW = 0;
-    private final int HUE_HIGH = 255;
-    private final int SATURATION_LOW = 0;
+    private final int HUE_LOW = 100;
+    private final int HUE_HIGH = 150;
+    private final int SATURATION_LOW = 100;
     private final int SATURATION_HIGH = 255;
-    private final int VALUE_LOW = 240;
+    private final int VALUE_LOW = 200;
     private final int VALUE_HIGH = 255;   	
-    	
+    
+    /*Ranges of the RGB threshold operation*/
+    private final int RED_LOW = 0;
+    private final int RED_HIGH = 100;
+    private final int GREEN_LOW = 200;
+    private final int GREEN_HIGH = 255;
+    private final int BLUE_LOW = 100;
+    private final int BLUE_HIGH = 255;  
+    
     /*Limit values of the particle filter operation*/
     private final double MIN_AREA = 1000; //The min area(in pixels) of an object in the processing operation
     private final double MAX_AREA = 60000; // The max area(in pixels) of an object in the processing operation
@@ -142,11 +151,17 @@ public class Vision extends Subsystem implements PIDSource{
 			NIVision.Range saturationRange = new NIVision.Range(SATURATION_LOW, SATURATION_HIGH);
 			NIVision.Range valueRange = new NIVision.Range(VALUE_LOW,VALUE_HIGH);
 			
+			/* Ranges for the RGB variables in the Threshold operation*/
+			NIVision.Range redRange = new NIVision.Range(RED_LOW, RED_HIGH);
+			NIVision.Range greenRange = new NIVision.Range(GREEN_LOW, GREEN_HIGH);
+			NIVision.Range blueRange = new NIVision.Range(BLUE_LOW,BLUE_HIGH);
+			
 			/*The Threshold operation - converting simple image into a binary image of black and white*/
 //			System.out.println("process image address: " + processImage.getAddress() + " input image address: " + inputImage.image.getAddress());
 			try{
 				NIVision.imaqColorThreshold(processImage, inputImage.image, 255, NIVision.ColorMode.HSV, hueRange, saturationRange,valueRange);
-//				NIVision.imaqWriteFile(processImage, "/home/lvuser/thresholdImage.jpg", new RGBValue(255, 255, 255, 255));
+				NIVision.imaqWriteFile(processImage, "/home/lvuser/thresholdImageHSV.jpg", new RGBValue(255, 255, 255, 255));
+
 			}catch(Exception e){
 				e.printStackTrace();
 			}		
@@ -158,10 +173,7 @@ public class Vision extends Subsystem implements PIDSource{
 			ROI roi = NIVision.imaqCreateROI();
 //			System.out.println("processImage: " + processImage +" criteria: " + criteria[0].toString() + " options: " + options + " roi: " + roi);
 			NIVision.imaqParticleFilter3(processImage, processImage, criteria[0], 1, options, roi);
-			 
-//			NIVision.imaqWriteFile(inputImage.image,"/home/lvuser/inputImage.jpg", new RGBValue(255, 255, 255, 255));
-//			NIVision.imaqWriteFile(processImage,"/home/lvuser/filterImage.jpg", new RGBValue(255, 255, 255, 255));
-							
+			 							
 			newBinaryImage binaryImage = new newBinaryImage();
 			binaryImage.image = processImage;
 
@@ -183,7 +195,16 @@ public class Vision extends Subsystem implements PIDSource{
 						particleReport = par;
 					}
 				}						
-			}	
+			}
+			
+			try{
+				NIVision.imaqColorThreshold(processImage, inputImage.image, 255, NIVision.ColorMode.RGB, redRange, greenRange,blueRange);
+				NIVision.imaqWriteFile(processImage, "/home/lvuser/thresholdImageRGB.jpg", new RGBValue(255, 255, 255, 255));
+
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
