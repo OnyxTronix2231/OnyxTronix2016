@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 
-public class Main extends Application implements Runnable{
+public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -26,24 +26,7 @@ public class Main extends Application implements Runnable{
 	public static void main(String[] args) {
 		new NetworkTablesReader().start();
 		new MainController().start();
-//		(new Thread(new Main())).start();
 		launch(args);
-	}
-
-	
-	@Override
-	public void run() {
-//		NetworkTable.setClientMode();
-//		NetworkTable.setIPAddress("10.22.31.5");
-//		NetworkTable table = NetworkTablesReader.table;
-//		
-//		System.out.println("table is ready");
-//		while(true) {
-//			SimpleBooleanProperty bool = NetworkTablesReader.bool;
-//			if(bool != null) {
-//				bool.setValue(table.getBoolean("left collector solenoid", false));
-//			}
-//		}
 	}
 	
 }
