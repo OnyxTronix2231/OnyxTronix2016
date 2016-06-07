@@ -3,7 +3,7 @@ package application;
 import java.lang.reflect.Method;
 
 public enum Part {
-	leftCollectorSolenoid,RightCollectorSolenoid;
+	leftCollectorSolenoid,rightCollectorSolenoid;
 	
 	private Method updateMethod;
 

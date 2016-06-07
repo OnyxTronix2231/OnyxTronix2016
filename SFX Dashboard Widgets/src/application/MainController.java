@@ -21,7 +21,9 @@ public class MainController extends Thread {
 						@Override
 						public void run() {
 							try {
-								part.getUpdateMethod().invoke(this, NetworkTablesReader.table.getValue(part.name(), null));
+								Object obj = this;
+								Object value = NetworkTablesReader.table.getValue(part.name(), null);
+								part.getUpdateMethod().invoke(obj, value);
 							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 								e.printStackTrace();
 							}
@@ -37,7 +39,18 @@ public class MainController extends Thread {
 		}
 	}
 	
-	public void leftCollectorSolenoid (Boolean isClosed) {
-		partAnimations.piston(publicRod, isClosed);
+	public void hidePistonRod() {
+		if (pistonRod != null) {
+			pistonRod.setVisible(false);
+			publicRod = pistonRod;
+		}
+	}
+	
+	public static void leftCollectorSolenoid (Object isClosed) {
+		partAnimations.piston(publicRod,(Boolean) isClosed);
+	}
+	
+	public static void rightCollectorSolenoid (Object isClosed) {
+		partAnimations.piston(null, (Boolean) isClosed);
 	}
 }

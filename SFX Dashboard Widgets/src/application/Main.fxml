@@ -8,7 +8,7 @@
 
 <GridPane fx:id="piston" prefHeight="50" prefWidth="500" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
   <children>
-    <Pane fx:id="pistonRod" onMousePressed="#hidePistonRod" onMouseReleased="#revealPistonRod" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: silver;-fx-border-color: black;" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+    <Pane fx:id="pistonRod" onMousePressed="#hidePistonRod" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: silver;-fx-border-color: black;" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
     <Pane fx:id="cylinder" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;-fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2147483647" />
       <Label fx:id="myMessage" />
   </children>

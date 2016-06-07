@@ -25,7 +25,6 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		new NetworkTablesReader().start();
-		new MainController().start();
 		launch(args);
 	}
 	

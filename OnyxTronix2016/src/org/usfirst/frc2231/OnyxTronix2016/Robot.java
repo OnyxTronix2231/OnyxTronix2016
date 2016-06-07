@@ -149,10 +149,10 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putString("Pdp Temp: ", RobotMap.driveTrainPdp.getTemperature() + "");
 //		
 //		SmartDashboard.putBoolean("Is ready to shoot: ", Robot.shooter.isReadyToShoot());
-        if(!table.putBoolean("left collector solenoid", RobotMap.collectorleftOpenSolenoid.get())) {
-        	table.delete("left collector solenoid");
+        if(!table.putBoolean("leftCollectorSolenoid", RobotMap.collectorleftOpenSolenoid.get())) {
+        	table.delete("leftCollectorSolenoid");
+        table.putBoolean("leftCollectorSolenoid", RobotMap.collectorleftOpenSolenoid.get());
         }
-        table.putBoolean("left collector solenoid", RobotMap.collectorleftOpenSolenoid.get());
     }
 
     /**
