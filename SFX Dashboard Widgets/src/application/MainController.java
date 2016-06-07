@@ -1,5 +1,7 @@
 package application;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -13,23 +15,19 @@ public class MainController extends Thread {
 
 	public void run() {
 		while (true) {
-			NetworkTablesReader.bool.setValue(NetworkTablesReader.table.getBoolean("left collector solenoid", false));
-			if (NetworkTablesReader.bool == null)
-				continue;
-			if (NetworkTablesReader.bool.get()) {
-				Platform.runLater(new Thread() {
-					@Override
-					public void run() {
-						hidePistonRod();
-					}
-				});
-			} else {
-				Platform.runLater(new Thread() {
-					@Override
-					public void run() {
-						revealPistonRod();
-					}
-				});
+			for(Part part : Part.values()) {
+				if(NetworkTablesReader.table.containsKey(part.name())) {
+					Platform.runLater(new Thread() {
+						@Override
+						public void run() {
+							try {
+								part.getUpdateMethod().invoke(this, NetworkTablesReader.table.getValue(part.name(), null));
+							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				}
 			}
 			try {
 				Thread.sleep(100);
@@ -38,22 +36,8 @@ public class MainController extends Thread {
 			}
 		}
 	}
-
-	public void hidePistonRod() {
-		if (pistonRod != null) {
-			pistonRod.setVisible(false);
-			publicRod = pistonRod;
-		} else if (publicRod != null) {
-			publicRod.setVisible(false);
-		}
-	}
-
-	public void revealPistonRod() {
-		if (pistonRod != null) {
-			pistonRod.setVisible(true);
-			publicRod = pistonRod;
-		} else if (publicRod != null) {
-			publicRod.setVisible(true);
-		}
+	
+	public void leftCollectorSolenoid (Boolean isClosed) {
+		partAnimations.piston(publicRod, isClosed);
 	}
 }
