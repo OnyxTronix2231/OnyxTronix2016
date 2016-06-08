@@ -1,6 +1,7 @@
 package application;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,23 +11,20 @@ public class MainController extends Thread {
 
 	@FXML
 	private Pane pistonRod;
-
-	public static Pane publicRod;
+	private static Piston leftCollectorPiston;
 
 	public void run() {
+		leftCollectorPiston= new Piston();
+		ArrayList<Part> parts = new ArrayList<Part>();
+		parts.add(leftCollectorPiston);
 		while (true) {
-			for(Part part : Part.values()) {
-				if(NetworkTablesReader.table.containsKey(part.name())) {
+			for(Part part : parts) {
+				if(NetworkTablesReader.table.containsKey(part.getTableName())) {
 					Platform.runLater(new Thread() {
 						@Override
 						public void run() {
-							try {
-								Object obj = this;
-								Object value = NetworkTablesReader.table.getValue(part.name(), null);
-								part.getUpdateMethod().invoke(obj, value);
-							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-								e.printStackTrace();
-							}
+							part.setState(NetworkTablesReader.table.getValue(part.getTableName(), false));
+							part.update();
 						}
 					});
 				}
@@ -42,15 +40,7 @@ public class MainController extends Thread {
 	public void hidePistonRod() {
 		if (pistonRod != null) {
 			pistonRod.setVisible(false);
-			publicRod = pistonRod;
+			leftCollectorPiston.setRod(pistonRod);
 		}
-	}
-	
-	public static void leftCollectorSolenoid (Object isClosed) {
-		partAnimations.piston(publicRod,(Boolean) isClosed);
-	}
-	
-	public static void rightCollectorSolenoid (Object isClosed) {
-		partAnimations.piston(null, (Boolean) isClosed);
 	}
 }
