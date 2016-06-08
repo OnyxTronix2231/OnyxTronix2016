@@ -1,6 +1,5 @@
 package application;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
@@ -15,6 +14,7 @@ public class MainController extends Thread {
 
 	public void run() {
 		leftCollectorPiston= new Piston();
+		leftCollectorPiston.setTableName("leftCollectorSolenoid");
 		ArrayList<Part> parts = new ArrayList<Part>();
 		parts.add(leftCollectorPiston);
 		while (true) {
