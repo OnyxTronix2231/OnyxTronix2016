@@ -68,7 +68,10 @@ public class CenterByVision extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double startingSpeed = SmartDashboard.getNumber("PID OutputRange: ");
+		System.out.println("Error: " + RobotMap.VisionRightPIDController.getError());
+
+      /*
+    	double startingSpeed = SmartDashboard.getNumber("PID OutputRange: ");
         double  currentSpeed = startingSpeed;
     	double error = Math.abs(RobotMap.VisionRightPIDController.getError());
     	double slope = (startingSpeed - MINIMUM_SPEED) /  EXTENDED_TOLERANCE_RANGE;
@@ -85,10 +88,12 @@ public class CenterByVision extends Command {
     	RobotMap.VisionLeftPIDController.setOutputRange(-currentOutputRange, currentOutputRange);
     	RobotMap.VisionRightPIDController.setOutputRange(-currentOutputRange, currentOutputRange);
     	System.out.println("current output range: " + currentOutputRange);
+    */
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	/*
     	System.out.println("Left Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", difference: " + RobotMap.VisionLeftPIDController.getError() + ", is on target: " + RobotMap.VisionLeftPIDController.onTarget());
     	System.out.println("Right Vision Controller: current value: " + Robot.vision.getDistanceFromCenter() + ", difference: " + RobotMap.VisionRightPIDController.getError() + ", is on target: " + RobotMap.VisionRightPIDController.onTarget());
     	long tEnd = System.currentTimeMillis();
@@ -96,6 +101,11 @@ public class CenterByVision extends Command {
 		System.out.println("time delta: " + tDelta / 1000.0);
 //    	return RobotMap.VisionLeftPIDController.onTarget() && RobotMap.VisionRightPIDController.onTarget();
     	if(tDelta /1000.0 >= 0.8 && Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
+    		return true;
+    	}
+    	*/
+    	if(Math.abs(RobotMap.VisionRightPIDController.getError()) < TOLERANCE){
+    		System.out.println("On target: " + RobotMap.VisionRightPIDController.getError());
     		return true;
     	}
     	return false;

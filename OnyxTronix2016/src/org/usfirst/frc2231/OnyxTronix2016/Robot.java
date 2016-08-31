@@ -124,9 +124,9 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putData("Obstacle : ",obstacles);
         SmartDashboard.putNumber("PID p: ", 0.001);
-        SmartDashboard.putNumber("PID i: ", 0);     
-        SmartDashboard.putNumber("PID d: ", 0.01);
-        SmartDashboard.putNumber("PID OutputRange: ", 0.2);
+        SmartDashboard.putNumber("PID i: ", 0.1);     
+        SmartDashboard.putNumber("PID d: ", 0);
+        SmartDashboard.putNumber("PID OutputRange: ", 0.3);
         SmartDashboard.putNumber("PID Setpoint: ", 23);
         setPoint = SmartDashboard.getNumber("PID Setpoint: ");
         OrderedAutonomous = new CommandGroup();
@@ -208,11 +208,11 @@ public class Robot extends IterativeRobot {
         double d = SmartDashboard.getNumber("PID d: ");
         setPoint = SmartDashboard.getNumber("PID Setpoint: ");
 
-        //double outputRange = SmartDashboard.getNumber("PID OutputRange: ");
+        double outputRange = SmartDashboard.getNumber("PID OutputRange: ");
         RobotMap.VisionLeftPIDController.setPID(p, i, d);
         RobotMap.VisionRightPIDController.setPID(p, i, d);
-       // RobotMap.VisionLeftPIDController.setOutputRange(-outputRange, outputRange);
-        //RobotMap.VisionRightPIDController.setOutputRange(-outputRange, outputRange);
+        RobotMap.VisionLeftPIDController.setOutputRange(-outputRange, outputRange);
+        RobotMap.VisionRightPIDController.setOutputRange(-outputRange, outputRange);
 //        oi.centerOnTarget.whenPressed(new CenterByVision(setPoint));
 //		System.out.println("PID Setpoint: "+ );
     }
