@@ -56,8 +56,8 @@ public class Collector extends Subsystem {
 		leftCloseSolenoid.set(isOpening);
 		leftOpenSolenoid.set(!isOpening);
 		
-		rightOpenSolenoid.set(!isOpening);
-		rightCloseSolenoid.set(isOpening);
+		rightCloseSolenoid.set(!isOpening);
+		rightOpenSolenoid.set(isOpening);
 	}
 
 	public void openCollector() {

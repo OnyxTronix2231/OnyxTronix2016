@@ -53,7 +53,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
- * This class is the glue that binds the controls on the physical operator
+ * This class is the glue that binds the cont
+ * rols on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
@@ -114,10 +115,14 @@ public class OI {
         
         prepareShooterWheels = new JoystickButton(buttonStick, 5);
         prepareShooterWheels.whileHeld(new ShootAtSpeed(1));
-        emergencyStop = new JoystickButton(buttonStick, 7);
-        emergencyStop.whenPressed(new StopEmergency());
-        emergencyStart = new JoystickButton(buttonStick, 8);
-        emergencyStart.whenPressed(new StartEmergency());
+//        emergencyStop = new JoystickButton(buttonStick, 7);
+//        emergencyStop.whenPressed(new StopEmergency());
+//        emergencyStart = new JoystickButton(buttonStick, 8);
+//        emergencyStart.whenPressed(new StartEmergency());
+        stopCompressor = new JoystickButton(buttonStick, 7);
+        stopCompressor.whenPressed(new StopCompressor());
+      	startCopmressor = new JoystickButton(buttonStick, 8);
+      	startCopmressor.whenPressed(new StartCompressor());
         collectorClose = new JoystickButton(buttonStick, 2);
         collectorClose.whileHeld(new CloseCollector());
         collectorOpen = new JoystickButton(buttonStick, 3);
@@ -135,10 +140,10 @@ public class OI {
        
         centerOnTarget = new JoystickButton(driveStick, 1);
         centerOnTarget.whenPressed(new CenterByVision(32));
-        right90 = new JoystickButton(driveStick, 2);
-        right90.whenPressed(new TurnByDegrees(-90));
-        left90 = new JoystickButton(driveStick, 3);
-        left90.whenPressed(new TurnByDegrees(90));
+//        right90 = new JoystickButton(driveStick, 2);
+//        right90.whenPressed(new TurnByDegrees(-90));
+//        left90 = new JoystickButton(driveStick, 3);
+//        left90.whenPressed(new TurnByDegrees(90));
         stopCompressor = new JoystickButton(driveStick, 7);
         stopCompressor.whenPressed(new StopCompressor());
         startCopmressor = new JoystickButton(driveStick, 8);
