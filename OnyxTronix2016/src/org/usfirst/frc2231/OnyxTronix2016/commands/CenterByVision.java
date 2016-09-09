@@ -58,13 +58,10 @@ public class CenterByVision extends Command {
     	}
     	RobotMap.VisionLeftPIDController.enable();
     	RobotMap.VisionRightPIDController.enable();
-    	RobotMap.VisionRightPIDController1.enable();
-    	RobotMap.VisionLeftPIDController1.enable();
+    	Robot.vision.setPIDSourceType(PIDSourceType.kRate);
     	Robot.vision.setPIDSourceType(PIDSourceType.kRate);
     	RobotMap.VisionLeftPIDController.setSetpoint(m_setpoint);
-    	RobotMap.VisionLeftPIDController1.setSetpoint(m_setpoint);
     	RobotMap.VisionRightPIDController.setSetpoint(m_setpoint);
-    	RobotMap.VisionRightPIDController1.setSetpoint(m_setpoint);
     	Robot.shooter.setReady(false);
     	Robot.vision.refreshValues();
     }
@@ -119,8 +116,6 @@ public class CenterByVision extends Command {
 		Robot.vision.stopProcessing();
 		RobotMap.VisionLeftPIDController.disable();
 		RobotMap.VisionRightPIDController.disable();
-		RobotMap.VisionLeftPIDController1.disable();
-		RobotMap.VisionRightPIDController1.disable();
 		Robot.shooter.setReady(true);
 		System.out.println("centered by vision");
     }
@@ -131,7 +126,5 @@ public class CenterByVision extends Command {
 		Robot.vision.stopProcessing();
 		RobotMap.VisionLeftPIDController.disable();
 		RobotMap.VisionRightPIDController.disable();
-		RobotMap.VisionLeftPIDController1.disable();
-		RobotMap.VisionRightPIDController1.disable();
     }
 }

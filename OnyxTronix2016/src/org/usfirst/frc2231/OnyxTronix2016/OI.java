@@ -119,6 +119,10 @@ public class OI {
 //        emergencyStop.whenPressed(new StopEmergency());
 //        emergencyStart = new JoystickButton(buttonStick, 8);
 //        emergencyStart.whenPressed(new StartEmergency());
+        stopCompressor = new JoystickButton(buttonStick, 7);
+        stopCompressor.whenPressed(new StopCompressor());
+      	startCopmressor = new JoystickButton(buttonStick, 8);
+      	startCopmressor.whenPressed(new StartCompressor());
         collectorClose = new JoystickButton(buttonStick, 2);
         collectorClose.whileHeld(new CloseCollector());
         collectorOpen = new JoystickButton(buttonStick, 3);
