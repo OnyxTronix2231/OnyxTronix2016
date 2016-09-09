@@ -144,10 +144,6 @@ public class OI {
 //        right90.whenPressed(new TurnByDegrees(-90));
 //        left90 = new JoystickButton(driveStick, 3);
 //        left90.whenPressed(new TurnByDegrees(90));
-        stopCompressor = new JoystickButton(driveStick, 7);
-        stopCompressor.whenPressed(new StopCompressor());
-        startCopmressor = new JoystickButton(driveStick, 8);
-        startCopmressor.whenPressed(new StartCompressor());
         shifterClose = new JoystickButton(driveStick, 6);
         shifterClose.whileHeld(new CloseShifters());
         shifterOpen = new JoystickButton(driveStick, 5);
